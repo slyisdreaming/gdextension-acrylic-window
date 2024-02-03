@@ -1,7 +1,7 @@
 # Acrylic Window
 This GDExtension brings Acrylic and Mica styles to apps made with Godot.
 
-<img src="./screenshots/acylic_blue.jpg" alt="Acrylic Blue" width="720"/>
+<img src="screenshots/acrylic_blue.jpg" alt="Acrylic Blue" width="720"/>
 
 <br/>
 
