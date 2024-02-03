@@ -1,0 +1,6 @@
+[submodule "godot"]
+	path = godot
+	url = https://github.com/godotengine/godot.git
+	branch = 4.2
+	ignore = dirty
+	shallow = true
