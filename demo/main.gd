@@ -59,6 +59,7 @@ enum Preset {
 @onready var pin_button: Button = $TitleBar_PROTOTYPE/TitleButtons/PinButton
 
 func _ready() -> void:
+	frame_button.add_item("None")
 	frame_button.add_item("Default")
 	frame_button.add_item("Custom")
 	

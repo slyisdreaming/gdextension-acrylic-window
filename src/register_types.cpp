@@ -1,5 +1,5 @@
-#include "register_types.h"
-#include "acrylic_window.h"
+#include "register_types.hpp"
+#include "acrylic_window.hpp"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>

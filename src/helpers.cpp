@@ -10,7 +10,7 @@
 /*                                                                        */
 /**************************************************************************/
 
-#include "helpers.h"
+#include "helpers.hpp"
 
 #include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -63,8 +63,7 @@ Control* find_mouse_blocking_control(Window* window, const Vector2& global_mouse
 	return nullptr;
 }
 
-Control* find_mouse_blocking_control(Control* control, bool ignore_self, int search_depth)
-{
+Control* find_mouse_blocking_control(Control* control, bool ignore_self, int search_depth) {
 	return find_mouse_blocking_control(control, control->get_global_mouse_position(), ignore_self, search_depth);
 }
 

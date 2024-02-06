@@ -1,6 +1,6 @@
 /**************************************************************************/
-/*  acrylic_window.h                                                      */
-/*  Acrylic and Mica styles for apps made with Godot.                     */
+/*  acrylic_window.hpp                                                    */
+/*  Acrylic and Mica styles for apps built in Godot.                      */
 /**************************************************************************/
 /*  MIT License                                                           */
 /*                                                                        */
@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "helpers.h"
+#include "helpers.hpp"
 
 #include <godot_cpp/classes/control.hpp>
 
@@ -23,8 +23,9 @@ class AcrylicWindow : public Control {
 
 public:
 	enum Frame {
+		FRAME_NONE,
 		FRAME_DEFAULT,
-		FRAME_CUSTOM		
+		FRAME_CUSTOM
 	};
 
 	enum Backdrop {
@@ -48,23 +49,21 @@ public:
 	};
 
 public:
-	DECLARE_PROPERTY(float, text_size, 1.25)
-	DECLARE_PROPERTY(bool, always_on_top, true)
-	DECLARE_PROPERTY(bool, drag_by_content, true)
-
 	/* EXPERIMENTAL If enabled, allows to modify the editor a bit. */
 	DECLARE_PROPERTY(bool, modify_editor, false)
-	
+
+	DECLARE_PROPERTY(float, text_size, 1.25)
+	DECLARE_PROPERTY(bool, always_on_top, true)
+	DECLARE_PROPERTY(bool, drag_by_content, false)
+	DECLARE_PROPERTY(bool, drag_by_right_click, true)
+
 	DECLARE_PROPERTY(Frame, frame, FRAME_CUSTOM)
 	DECLARE_PROPERTY(Backdrop, backdrop, BACKDROP_ACRYLIC)
 	DECLARE_PROPERTY(Autohide, autohide_title_bar, AUTOHIDE_MAXIMIZED)
-	// Make the title bar color a bit darker than base_color.
 	DECLARE_PROPERTY(Accent, accent_title_bar, ACCENT_MOUSE_OVER)
-
+	
 	// Automatically adjust colors based on the base_color.
 	DECLARE_PROPERTY(bool, auto_colors, true)
-
-	// Colors
 	DECLARE_PROPERTY(Color&, base_color, Color(0.71, 0.188, 0.471, 0.224))
 	DECLARE_PROPERTY(Color&, border_color, Color(0, 0, 0))
 	DECLARE_PROPERTY(Color&, title_bar_color, Color(0, 0, 0))
@@ -88,13 +87,9 @@ private:
 	void on_ready();
 	void on_exit_tree();
 
-private:
+private:	
+	void adjust_colors();
 	void apply_style();
-	void update_colors();
-	void update_border_color(const Color &p_border_color);
-	void update_title_bar_color(const Color &p_caption_color);
-	void update_text_color(const Color &p_text_color);
-	void update_clear_color(const Color &p_clear_color);
 };
 
 }

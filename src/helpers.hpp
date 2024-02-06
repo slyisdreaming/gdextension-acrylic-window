@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  helpers.h                                                             */
+/*  helpers.hpp                                                           */
 /*  A set of functions and macros that make life easier with GDExtension. */
 /**************************************************************************/
 /*  MIT License                                                           */
