@@ -64,7 +64,7 @@ public:
 	
 	// Automatically adjust colors based on the base_color.
 	DECLARE_PROPERTY(bool, auto_colors, true)
-	DECLARE_PROPERTY(Color&, base_color, Color(0.71, 0.188, 0.471, 0.224))
+	DECLARE_PROPERTY(Color&, base_color, Color(0.133, 0.145, 0.149, 0.741))
 	DECLARE_PROPERTY(Color&, border_color, Color(0, 0, 0))
 	DECLARE_PROPERTY(Color&, title_bar_color, Color(0, 0, 0))
 	DECLARE_PROPERTY(Color&, text_color, Color(1, 1, 1))

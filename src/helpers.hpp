@@ -83,8 +83,7 @@ void print_debug_impl(const char* category, const char* funcname, const char* fo
 		property_type property_name = default_value;
 
 #define DEFINE_PROPERTY_GET(class_name, property_type, property_name) \
-	property_type class_name::get_##property_name() const \
-	{ \
+	property_type class_name::get_##property_name() const { \
 		return property_name; \
 	}
 
