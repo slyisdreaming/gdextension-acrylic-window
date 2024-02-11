@@ -1,5 +1,6 @@
 #include "register_types.hpp"
 #include "acrylic_window.hpp"
+#include "switch_tween.hpp"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -13,6 +14,7 @@ void initialize_module(ModuleInitializationLevel p_level) {
 	}
 
 	ClassDB::register_class<AcrylicWindow>();
+	ClassDB::register_class<SwitchTween>();
 }
 
 void uninitialize_module(ModuleInitializationLevel p_level) {

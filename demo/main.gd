@@ -20,8 +20,25 @@ extends AcrylicWindow
 #	Aspect = expand
 #	Scale = 1.5
 
-@onready var acrylic_settings: AcrylicSettings = $AcrylicSettings
+@onready var settings: AcrylicSettings = $AcrylicSettings
+@onready var title_bar: AcrylicTitleBarPrototype = $AcrylicTitleBarPrototype
+
+var settings_tween: Tween
 
 func _ready() -> void:
-	acrylic_settings.set_preset(AcrylicSettings.Preset.AcrylicBlue)
+	settings.set_preset(AcrylicSettings.Preset.AcrylicBlue)
+	# Show settings on open for demo.
+	title_bar.settings_button.button_pressed = true
 
+
+func _on_acrylic_title_bar_prototype_settings_toggled(toggled_on: bool) -> void:
+	if settings_tween:
+		settings_tween.kill()
+	settings_tween = create_tween()
+	settings_tween.set_parallel(true)
+	if toggled_on:
+		settings_tween.tween_property(settings, "offset_right", -20, 0.2)
+		settings_tween.tween_property(settings, "modulate:a", 1, 0.2)
+	else:
+		settings_tween.tween_property(settings, "offset_right", 300, 0.4)
+		settings_tween.tween_property(settings, "modulate:a", 0, 0.4)

@@ -97,5 +97,5 @@ void print_debug_impl(const char* category, const char* funcname, const char* fo
 	::godot::ClassDB::bind_method(::godot::D_METHOD("set_"#property_name, "p_"#property_name), &class_name::set_ ## property_name); \
 	::godot::ClassDB::add_property(#class_name, ::godot::PropertyInfo(property_type, #property_name,  ::godot::PROPERTY_HINT_ENUM, enum_values), "set_"#property_name, "get_"#property_name);
 
-#define BIND_FUNCTION(class_name, function_name) \
-	::godot::ClassDB::bind_method(::godot::D_METHOD(#function_name), &class_name::function_name);
+#define BIND_FUNCTION(class_name, function_name, ...) \
+	::godot::ClassDB::bind_method(::godot::D_METHOD(#function_name, __VA_ARGS__), &class_name::function_name);

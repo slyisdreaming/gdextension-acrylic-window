@@ -1,48 +1,63 @@
-[gd_scene load_steps=19 format=3 uid="uid://ltrqc0y06eqr"]
+[gd_scene load_steps=24 format=3 uid="uid://ltrqc0y06eqr"]
 
 [ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_title_bar_prototype.gd" id="1_ungu4"]
+
+[sub_resource type="FontVariation" id="FontVariation_0haeb"]
 
 [sub_resource type="SystemFont" id="SystemFont_dck5u"]
 font_names = PackedStringArray("Segoe MDL2 Assets")
 font_weight = 999
 subpixel_positioning = 0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8f45y"]
+bg_color = Color(0.129412, 0.603922, 0.164706, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyukf"]
-bg_color = Color(0.129412, 0.603922, 0.164706, 1)
+bg_color = Color(0.129412, 0.603922, 0.164706, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t310m"]
 bg_color = Color(0.129412, 0.603922, 0.164706, 1)
 
-[sub_resource type="FontVariation" id="FontVariation_0haeb"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iqj7x"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4t205"]
+bg_color = Color(0.839216, 0.545098, 0, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouvmi"]
-bg_color = Color(0.839216, 0.545098, 0, 1)
+bg_color = Color(0.839216, 0.545098, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ejv6b"]
 bg_color = Color(0.839216, 0.545098, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cgsnq"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2c2qe"]
+bg_color = Color(0.231373, 0.231373, 0.231373, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reugf"]
-bg_color = Color(1, 1, 1, 0.101961)
+bg_color = Color(0.109804, 0.109804, 0.109804, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es52n"]
 bg_color = Color(0.780392, 0.780392, 0.780392, 0.101961)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xiii1"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jt4t"]
+bg_color = Color(0.105882, 0.360784, 0.768627, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8msj"]
-bg_color = Color(0.105882, 0.360784, 0.768627, 1)
+bg_color = Color(0.105882, 0.360784, 0.768627, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_isck3"]
 bg_color = Color(0.101961, 0.341176, 0.729412, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ruc4t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hsvuh"]
-bg_color = Color(0.768627, 0.168627, 0.109804, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xoep"]
+bg_color = Color(0.768627, 0.168627, 0.109804, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l6mk5"]
+bg_color = Color(0.768627, 0.168627, 0.109804, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3tqlj"]
 bg_color = Color(0.701961, 0.14902, 0.0980392, 1)
@@ -67,18 +82,6 @@ offset_right = 421.0
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Button7" type="Button" parent="TitleHeader"]
-visible = false
-custom_minimum_size = Vector2(70, 0)
-layout_mode = 2
-theme_type_variation = &"FlatButton"
-theme_override_fonts/font = SubResource("SystemFont_dck5u")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/hover = SubResource("StyleBoxFlat_pyukf")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_t310m")
-toggle_mode = true
-text = ""
-
 [node name="TitleLabel" type="Label" parent="TitleHeader"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_0haeb")
@@ -102,6 +105,7 @@ layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_8f45y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pyukf")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_t310m")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_iqj7x")
@@ -114,6 +118,7 @@ layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_4t205")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ouvmi")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ejv6b")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cgsnq")
@@ -127,6 +132,7 @@ layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_2c2qe")
 theme_override_styles/hover = SubResource("StyleBoxFlat_reugf")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_es52n")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xiii1")
@@ -137,6 +143,7 @@ custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_6jt4t")
 theme_override_styles/hover = SubResource("StyleBoxFlat_i8msj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_isck3")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ruc4t")
@@ -147,35 +154,28 @@ custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_font_sizes/font_size = 22
-theme_override_styles/hover = SubResource("StyleBoxFlat_hsvuh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2xoep")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l6mk5")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_3tqlj")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_edof7")
 text = "✕"
 
-[node name="Button6" type="Button" parent="."]
-visible = false
-custom_minimum_size = Vector2(70, 45)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -351.688
-offset_top = -22.0015
-offset_right = -281.688
-offset_bottom = 22.9985
-grow_horizontal = 0
-grow_vertical = 2
-theme_type_variation = &"FlatButton"
-theme_override_fonts/font = SubResource("SystemFont_dck5u")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/hover = SubResource("StyleBoxFlat_pyukf")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_t310m")
-toggle_mode = true
-text = ""
+[node name="AutohideTween" type="SwitchTween" parent="."]
 
+[node name="AccentTween" type="SwitchTween" parent="."]
+
+[connection signal="mouse_entered" from="TitleButtons/SettingsButton" to="." method="_on_settings_button_mouse_entered"]
+[connection signal="mouse_exited" from="TitleButtons/SettingsButton" to="." method="_on_settings_button_mouse_exited"]
+[connection signal="toggled" from="TitleButtons/SettingsButton" to="." method="_on_settings_button_toggled"]
+[connection signal="mouse_entered" from="TitleButtons/PinButton" to="." method="_on_pin_button_mouse_entered"]
+[connection signal="mouse_exited" from="TitleButtons/PinButton" to="." method="_on_pin_button_mouse_exited"]
 [connection signal="toggled" from="TitleButtons/PinButton" to="." method="_on_pin_button_toggled"]
+[connection signal="mouse_entered" from="TitleButtons/MinimizeButton" to="." method="_on_minimize_button_mouse_entered"]
+[connection signal="mouse_exited" from="TitleButtons/MinimizeButton" to="." method="_on_minimize_button_mouse_exited"]
 [connection signal="pressed" from="TitleButtons/MinimizeButton" to="." method="_on_minimize_button_pressed"]
+[connection signal="mouse_entered" from="TitleButtons/MaximizeButton" to="." method="_on_maximize_button_mouse_entered"]
+[connection signal="mouse_exited" from="TitleButtons/MaximizeButton" to="." method="_on_maximize_button_mouse_exited"]
 [connection signal="pressed" from="TitleButtons/MaximizeButton" to="." method="_on_maximize_button_pressed"]
+[connection signal="mouse_entered" from="TitleButtons/CloseButton" to="." method="_on_close_button_mouse_entered"]
+[connection signal="mouse_exited" from="TitleButtons/CloseButton" to="." method="_on_close_button_mouse_exited"]
 [connection signal="pressed" from="TitleButtons/CloseButton" to="." method="_on_close_button_pressed"]

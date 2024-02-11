@@ -16,9 +16,6 @@ script = ExtResource("1_71il2")
 
 [node name="AcrylicTitleBarPrototype" parent="." node_paths=PackedStringArray("acrylic_window") instance=ExtResource("2_c5hnf")]
 layout_mode = 1
-anchors_preset = -1
-anchor_bottom = 0.056
-offset_bottom = -0.400002
 acrylic_window = NodePath("..")
 
 [node name="AcrylicSettings" parent="." node_paths=PackedStringArray("acrylic_window") instance=ExtResource("3_rfg80")]
@@ -28,5 +25,9 @@ anchor_left = 1.0
 anchor_right = 1.0
 offset_top = 140.0
 offset_right = -20.0
+offset_bottom = 0.0
 grow_horizontal = 0
+pivot_offset = Vector2(1, 0)
 acrylic_window = NodePath("..")
+
+[connection signal="settings_toggled" from="AcrylicTitleBarPrototype" to="." method="_on_acrylic_title_bar_prototype_settings_toggled"]

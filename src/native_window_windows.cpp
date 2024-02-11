@@ -123,7 +123,7 @@ namespace {
 
 		case WM_SYSKEYUP: {
 			if (wParam == 0x0D) { // ENTER
-				if (lParam & (1 << 24) || lParam & (1 << 29)) { // ALT
+				if ((lParam & (1 << 24)) || (lParam & (1 << 29))) { // ALT
 					window->maximize();
 					return 0;
 				}
