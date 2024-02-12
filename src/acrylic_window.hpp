@@ -15,11 +15,18 @@
 #include "helpers.hpp"
 
 #include <godot_cpp/classes/control.hpp>
+#include <godot_cpp/classes/tween.hpp>
+#include <godot_cpp/classes/property_tweener.hpp>
 
 namespace godot {
 
+class ColorRect;
+//class Tween;
+
 class AcrylicWindow : public Control {
 	GDCLASS(AcrylicWindow, Control)
+
+	friend class NativeWindow;
 
 public:
 	enum Frame {
@@ -56,6 +63,8 @@ public:
 	DECLARE_PROPERTY(bool, always_on_top, true)
 	DECLARE_PROPERTY(bool, drag_by_content, false)
 	DECLARE_PROPERTY(bool, drag_by_right_click, true)
+	DECLARE_PROPERTY(bool, dim_inactive, true)
+	DECLARE_PROPERTY(float, dim_strength, 0.25)
 
 	DECLARE_PROPERTY(Frame, frame, FRAME_CUSTOM)
 	DECLARE_PROPERTY(Backdrop, backdrop, BACKDROP_ACRYLIC)
@@ -74,6 +83,7 @@ public:
 	void minimize();
 	void maximize(bool toggle = true);
 	void close();
+	void dim(bool on);
 
 public:
 	virtual void _ready() override;
@@ -90,6 +100,10 @@ private:
 private:	
 	void adjust_colors();
 	void apply_style();
+
+private:
+	ColorRect* dim_rect;
+	Ref<Tween> dim_tween;
 };
 
 }

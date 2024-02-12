@@ -14,7 +14,9 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 
+#include <godot_cpp/classes/color_rect.hpp>
 #include <godot_cpp/classes/display_server.hpp>
+#include <godot_cpp/classes/tween.hpp>
 #include <godot_cpp/classes/window.hpp>
 
 #include <map>
@@ -42,6 +44,16 @@ namespace {
 
 	std::mutex mutex;
 	std::map<HWND, thunk_s> windows;
+
+	bool right_click_down = false;
+	HWND right_click_hwnd = NULL;
+	bool right_click_can_drag = false;
+	POINT right_click_pos = {};
+	POINT right_click_move = {};
+
+#if DEBUG_DWM
+	long dy = 0;
+#endif
 
 	HWND get_native_handle(Window* window) {
 		if (!window) {
@@ -96,6 +108,203 @@ namespace {
 		return true;
 	}
 
+	void on_right_click_down(HWND hwnd, WPARAM wParam, LPARAM lParam, bool screen_space) {
+		POINT click_pos = {
+			GET_X_LPARAM(lParam),
+			GET_Y_LPARAM(lParam)
+		};
+
+		if (!screen_space) {
+			if (!ClientToScreen(hwnd, &click_pos)) {
+				print_error("Failed to ClientToScreen. Error: %d.", GetLastError());
+				return;
+			}
+		}
+
+		right_click_down = true;
+		right_click_hwnd = hwnd;
+		right_click_can_drag = false;
+		right_click_pos = click_pos;
+		right_click_move = {};
+	}
+
+	void on_right_click_up(HWND hwnd) {
+		if (right_click_hwnd != hwnd)
+			return;
+
+		right_click_down = false;
+		right_click_hwnd = NULL;
+		right_click_can_drag = false;
+	}
+
+	bool on_syskey_up(WPARAM wParam, LPARAM lParam, AcrylicWindow* window) {
+		// Use magical numbers because Godot overrides key constants on Windows.
+		if (wParam == 0x0D) { // ENTER
+			if ((lParam & (1 << 24)) || (lParam & (1 << 29))) { // ALT
+				window->maximize();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool on_key_up(WPARAM wParam, LPARAM lParam, AcrylicWindow* window) {
+		// Use magical numbers because Godot overrides key constants on Windows.
+		switch (wParam) {
+		case 0x7A: // F11
+			window->maximize();
+			return true;
+
+#if DEBUG_DWM
+		case 0x26: // Arrow Up
+			dy += 1;
+			SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			break;
+
+		case 0x28: // Arrow Down
+			dy -= 1;
+			SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			break;
+#endif
+		}
+
+		return false;
+	}
+
+	bool on_ncactivate(WPARAM wParam, AcrylicWindow* window) {
+		if (wParam == FALSE) {
+			if (window->get_dim_inactive() && !window->get_always_on_top())
+				window->dim(true);
+		}
+		else {
+			window->dim(false);
+		}
+
+		return true;
+	}
+
+	bool on_nccalcsize(HWND hwnd, WPARAM wParam, LPARAM lParam) {
+		if (wParam == FALSE)
+			return false;
+		
+		RECT border = {};
+		if (!get_window_border(hwnd, &border)) {
+			print_debug("Failed to get window border (WM_NCCALCSIZE). Using default border.");
+			border = { 5, 5, 5, 5 };
+		}
+
+		NCCALCSIZE_PARAMS* sz = (NCCALCSIZE_PARAMS*)lParam;
+		sz->rgrc[0].top -= border.top;
+		sz->rgrc[0].left -= border.left;
+		sz->rgrc[0].right -= border.right;
+		sz->rgrc[0].bottom -= border.bottom;
+
+#if DEBUG_DWM
+		print_debug("%d %d %d %d %d", dy, border.top, border.left, border.right, border.bottom);
+#endif
+
+		return true;
+	}
+
+	LRESULT on_nchittest(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, AcrylicWindow* window) {
+		LRESULT result = DefWindowProc(hwnd, uMsg, wParam, lParam);
+		if (result != HTCLIENT)
+			return result;
+
+		RECT border = {};
+		if (!get_window_border(hwnd, &border)) {
+			print_debug("Failed to get window border (WM_NCHITTEST). Using default border.");
+			border = { -10, 5, 5, 5 };
+		}
+
+		POINT screen_cursor = {
+			GET_X_LPARAM(lParam),
+			GET_Y_LPARAM(lParam)
+		};
+
+		POINT client_cursor = screen_cursor;
+		if (!ScreenToClient(hwnd, &client_cursor)) {
+			print_debug("Failed to ScreenToClient. Error: %d.", GetLastError());
+			return HTCLIENT;
+		}
+
+#if DEBUG_DWM
+		print_debug("%d %d %d", client_cursor.x, client_cursor.y, border.top);
+#endif
+
+		if (client_cursor.y < -border.top)
+			return HTTOP;
+
+		if (right_click_down && right_click_hwnd == hwnd && window->get_drag_by_right_click()) {
+			if (!(GetAsyncKeyState(0x02) & (1 << 15))) {
+				on_right_click_up(hwnd);
+			}
+			else {
+				POINT delta = {
+					screen_cursor.x - right_click_pos.x,
+					screen_cursor.y - right_click_pos.y,
+				};
+
+				if (!right_click_can_drag) {
+					right_click_move.x += std::abs(delta.x);
+					right_click_move.y += std::abs(delta.y);
+
+					right_click_can_drag = right_click_move.x > 10 || right_click_move.y > 10;
+				}
+
+				right_click_pos.x = screen_cursor.x;
+				right_click_pos.y = screen_cursor.y;
+
+				if (right_click_can_drag) {
+					RECT rect = {};
+					if (!GetWindowRect(hwnd, &rect)) {
+						print_debug("Failed to GetWindowRect. Error: %d.", GetLastError());
+					}
+					else {
+						if (!SetWindowPos(hwnd, NULL, rect.left + delta.x, rect.top + delta.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
+							print_debug("Failed to SetWindowPos. Error: %d.", GetLastError());
+						return HTCAPTION;
+					}
+				}
+			}
+		}
+
+		bool can_drag = window->get_drag_by_content();
+		if (!can_drag) {
+			border = {};
+			if (!AdjustWindowRectEx(&border, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CAPTION, FALSE, 0)) {
+				print_debug("Failed to AdjustWindowRectEx. Error: %d.", GetLastError());
+				can_drag = false;
+			}
+			else {
+				can_drag = client_cursor.y < -border.top;
+			}
+		}
+
+		if (can_drag) {
+			Window* root_window = window->get_window();
+			if (!root_window) {
+				print_error("Failed to get root window.");
+				return HTCAPTION;
+			}
+
+			Control* blocking_control = find_mouse_blocking_control(root_window);
+			if (!blocking_control) {
+				return HTCAPTION;
+			}
+			else {
+				// TOOD glitchy
+				//if (blocking_control->has_meta("maximize_button"))
+				//	return HTMAXBUTTON;
+			}
+
+			// print_debug("%s", blocking_control->get_name().c_escape().ascii().get_data());
+		}
+
+		return HTCLIENT;
+	}
+
 	LRESULT CALLBACK wndproc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		mutex.lock();
 		auto thunk = windows.find(hwnd);
@@ -114,107 +323,47 @@ namespace {
 
 		// If custom frame then call Godot's wndproc at the very end because
 		// otherwise it messes up window.
-#if DEBUG_DWM
-		static long dy = 0;
-#endif
+
 		switch (uMsg) {
 		case WM_NCACTIVATE:
-			return 0;
-
-		case WM_SYSKEYUP: {
-			if (wParam == 0x0D) { // ENTER
-				if ((lParam & (1 << 24)) || (lParam & (1 << 29))) { // ALT
-					window->maximize();
-					return 0;
-				}
-			}
-		} break;
-
-		case WM_KEYUP: {
-			// Use magical numbers because Godot overrides key constants on Windows.
-			switch (wParam) {
-			case 0x7A: // F11
-				window->maximize();
+			if (on_ncactivate(wParam, window))
 				return 0;
-#if DEBUG_DWM
-			case 0x26: // Arrow Up
-				dy += 1;
-				SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-				break;
-			case 0x28: // Arrow Down
-				dy -= 1;
-				SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-				break;
-#endif
-			}
-		} break;
+			break;
 
-		case WM_NCCALCSIZE: {
-			if (wParam) {
-				RECT border = {};
-				if (!get_window_border(hwnd, &border)) {
-					print_debug("Failed to get window border (WM_NCCALCSIZE). Using default border.");
-					border = { 5, 5, 5, 5 };
-				}
-
-				NCCALCSIZE_PARAMS* sz = (NCCALCSIZE_PARAMS*)lParam;
-				sz->rgrc[0].top -= border.top;
-				sz->rgrc[0].left -= border.left;
-				sz->rgrc[0].right -= border.right;
-				sz->rgrc[0].bottom -= border.bottom;
-#if DEBUG_DWM
-				print_debug("%d %d %d %d %d", dy, border.top, border.left, border.right, border.bottom);
-#endif
+		case WM_NCCALCSIZE:
+			if (on_nccalcsize(hwnd, wParam, lParam))
 				return 0;
-			}
-		} break;
+			break;
 
 		case WM_NCHITTEST: {
-			LRESULT result = DefWindowProc(hwnd, uMsg, wParam, lParam);
+			LRESULT result = on_nchittest(hwnd, uMsg, wParam, lParam, window);
 			if (result != HTCLIENT)
 				return result;
-
-			RECT border = {};
-			if (!get_window_border(hwnd, &border)) {
-				print_debug("Failed to get window border (WM_NCHITTEST). Using default border.");
-				border = { -10, 5, 5, 5 };
-			}
-
-			POINT pt = {
-				GET_X_LPARAM(lParam),
-				GET_Y_LPARAM(lParam)
-			};
-
-			ScreenToClient(hwnd, &pt);
-
-#if DEBUG_DWM
-			print_debug("%d %d %d", pt.x, pt.y, border.top);
-#endif
-			if (pt.y < -border.top)
-				return HTTOP;
-
-			bool can_drag = window->get_drag_by_content();
-			if (!can_drag) {
-				border = {};
-				AdjustWindowRectEx(&border, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CAPTION, FALSE, 0);
-				can_drag = pt.y < -border.top;
-			}
-
-			if (can_drag) {
-				Window* root_window = window->get_window();
-				if (!root_window) {
-					print_error("Failed to get root window.");
-					return HTCAPTION;
-				}
-
-				Control* blocking_control = find_mouse_blocking_control(root_window);
-				if (!blocking_control)
-					return HTCAPTION;
-
-				// print_debug("%s", blocking_control->get_name().c_escape().ascii().get_data());
-			}
 		} break;
-		} // switch(uMsg)
+		
+		case WM_KEYUP:
+			if (on_key_up(wParam, lParam, window))
+				return 0;
+			break;
+
+		case WM_SYSKEYUP:
+			if (on_syskey_up(wParam, lParam, window))
+				return 0;
+			break;
+
+		case WM_RBUTTONDOWN:
+			on_right_click_down(hwnd, wParam, lParam, false);
+			break;
+
+		case WM_NCRBUTTONDOWN:
+			on_right_click_down(hwnd, wParam, lParam, true);
+			break;
+
+		case WM_RBUTTONUP:
+		case WM_NCRBUTTONUP:
+			on_right_click_up(hwnd);
+			break;
+		}
 
 		return CallWindowProc(godot_wndproc, hwnd, uMsg, wParam, lParam);
 	}

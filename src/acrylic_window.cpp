@@ -63,6 +63,31 @@ void AcrylicWindow::close() {
 	native.close();
 }
 
+void AcrylicWindow::dim(bool on) {
+	if (dim_tween.is_valid())
+		dim_tween->kill();
+
+	if (!dim_rect) {
+		print_error("dim_rect is null");
+		return;
+	}
+
+	dim_tween = create_tween();
+
+	if (on) {
+		dim_tween->tween_property(dim_rect, "color:a", dim_strength, 0.4);
+
+		NATIVE_GUARD;
+		native.set_border_color(border_color.darkened(dim_strength));
+	}
+	else {
+		dim_tween->tween_property(dim_rect, "color:a", 0.0, 0.2);
+
+		NATIVE_GUARD;
+		native.set_border_color(border_color);
+	}
+}
+
 void AcrylicWindow::_ready() {
 	// NOTE: This function is called twice in the editor: when opening a scene 
 	// in the editor and when loading a scene in a game running in the editor.
@@ -110,6 +135,8 @@ void AcrylicWindow::_bind_methods() {
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, always_on_top);
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_content);
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_right_click);
+	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, dim_inactive);
+	BIND_PROPERTY(AcrylicWindow, Variant::FLOAT, dim_strength);
 	
 	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, frame, "None, Default, Custom");
 	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, backdrop, "Solid, Transparent, Acrylic, Mica, Tabbed");
@@ -141,8 +168,8 @@ void AcrylicWindow::on_draw() {
 		auto h = get_size().height;
 
 		draw_rect(Rect2(0, 0, w, 1), Color(1, 0, 0));
-		draw_rect(Rect2(w-1, 0, 1, h), Color(0, 1, 0));
-		draw_rect(Rect2(0, h-1, w, 1), Color(0, 0, 1));
+		draw_rect(Rect2(w - 1, 0, 1, h), Color(0, 1, 0));
+		draw_rect(Rect2(0, h - 1, w, 1), Color(0, 0, 1));
 		draw_rect(Rect2(0, 0, 1, h), Color(1, 1, 0));
 	}
 #endif
@@ -157,6 +184,19 @@ void AcrylicWindow::on_ready() {
 	// because apply_style relies on the native code.
 	NATIVE_GUARD;
 	native.on_ready();
+
+	dim_rect = new ColorRect();
+	dim_rect->set_name("DimRect");
+	dim_rect->set_color(Color(0, 0, 0, 0));
+	dim_rect->set_mouse_filter(Control::MOUSE_FILTER_IGNORE);
+	dim_rect->set_z_index(100);
+	dim_rect->set_anchor_and_offset(SIDE_LEFT, 0, 0);
+	dim_rect->set_anchor_and_offset(SIDE_RIGHT, 1, 0);
+	dim_rect->set_anchor_and_offset(SIDE_TOP, 0, 0);
+	dim_rect->set_anchor_and_offset(SIDE_BOTTOM, 1, 0);
+	add_child(dim_rect);
+
+	//dim(true);
 
 	// Need this to drag by content.
 	set_mouse_filter(MOUSE_FILTER_PASS);
@@ -179,6 +219,8 @@ DEFINE_PROPERTY_GET(AcrylicWindow, float, text_size)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, always_on_top)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, drag_by_content)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, drag_by_right_click)
+DEFINE_PROPERTY_GET(AcrylicWindow, bool, dim_inactive)
+DEFINE_PROPERTY_GET(AcrylicWindow, float, dim_strength)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, modify_editor)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Frame, frame)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Backdrop, backdrop)
@@ -190,6 +232,11 @@ DEFINE_PROPERTY_GET(AcrylicWindow, Color, border_color)
 DEFINE_PROPERTY_GET(AcrylicWindow, Color, title_bar_color)
 DEFINE_PROPERTY_GET(AcrylicWindow, Color, text_color)
 DEFINE_PROPERTY_GET(AcrylicWindow, Color, clear_color)
+
+DEFINE_PROPERTY_SET(AcrylicWindow, bool, drag_by_content)
+DEFINE_PROPERTY_SET(AcrylicWindow, bool, drag_by_right_click)
+DEFINE_PROPERTY_SET(AcrylicWindow, bool, dim_inactive)
+DEFINE_PROPERTY_SET(AcrylicWindow, float, dim_strength)
 
 void AcrylicWindow::set_modify_editor(const bool p_modify_editor) {
 	PROPERTY_GUARD(modify_editor);
@@ -225,14 +272,6 @@ void AcrylicWindow::set_always_on_top(const bool p_always_on_top) {
 
 	// Can't use this code because it affects all the windows.
 	// DisplayServer::get_singleton()->window_set_flag(DisplayServer::WINDOW_FLAG_ALWAYS_ON_TOP, always_on_top);
-}
-
-void AcrylicWindow::set_drag_by_content(const bool p_drag_by_content) {
-	drag_by_content = p_drag_by_content;
-}
-
-void AcrylicWindow::set_drag_by_right_click(const bool p_drag_by_right_click) {
-	drag_by_right_click = p_drag_by_right_click;
 }
 
 void AcrylicWindow::set_frame(const AcrylicWindow::Frame p_frame) {

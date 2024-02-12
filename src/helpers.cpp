@@ -15,6 +15,7 @@
 #include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/window.hpp>
+#include <godot_cpp/core/error_macros.hpp>
 
 #include <cstdarg>
 #include <ctime>
@@ -126,6 +127,8 @@ void print_warning_impl(const char* category, const char* funcname, const char* 
 	va_end(argptr);
 
 	fprintf(stderr, "\n\033[0m");
+
+	//_err_print_error(funcname, category, 0, format, true, true);
 }
 
 void print_message_impl(const char* category, const char* funcname, const char* format, ...) {
@@ -154,4 +157,6 @@ void print_debug_impl(const char* category, const char* funcname, const char* fo
 	va_end(argptr);
 
 	fprintf(stdout, "\n\033[0m");
+
+	//_err_print_error(funcname, category, 0, format, true, true);
 }

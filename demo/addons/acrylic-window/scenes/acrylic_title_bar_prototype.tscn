@@ -16,7 +16,7 @@ bg_color = Color(0.129412, 0.603922, 0.164706, 0)
 bg_color = Color(0.129412, 0.603922, 0.164706, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t310m"]
-bg_color = Color(0.129412, 0.603922, 0.164706, 1)
+bg_color = Color(0.1134, 0.54, 0.14184, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iqj7x"]
 
@@ -27,7 +27,7 @@ bg_color = Color(0.839216, 0.545098, 0, 0)
 bg_color = Color(0.839216, 0.545098, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ejv6b"]
-bg_color = Color(0.839216, 0.545098, 0, 1)
+bg_color = Color(0.701961, 0.454902, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cgsnq"]
 
@@ -148,6 +148,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_i8msj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_isck3")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ruc4t")
 text = "☐"
+metadata/maximize_button = false
 
 [node name="CloseButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 0)
