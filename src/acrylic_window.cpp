@@ -19,6 +19,8 @@
 #include <godot_cpp/classes/color_rect.hpp>
 #include <godot_cpp/classes/label.hpp>
 
+#include <godot_cpp/classes/window.hpp>
+
 namespace {
 	const char PRINT_CATEGORY[] = "AcrylicWindow";
 }
@@ -74,7 +76,9 @@ void AcrylicWindow::dim(bool on) {
 
 	dim_tween = create_tween();
 
-	if (on) {
+	bool should_dim = on && dim_strength > 0.0001 && !always_on_top;
+
+	if (should_dim) {
 		dim_tween->tween_property(dim_rect, "color:a", dim_strength, 0.4);
 
 		NATIVE_GUARD;
@@ -95,6 +99,8 @@ void AcrylicWindow::_ready() {
 	// BUG? Godot complains that super._ready is not defined when called from
 	// GDScript. That's why use NOTIFICATION_READY instead.
 }
+
+
 
 void AcrylicWindow::_notification(int p_what) {
 	switch (p_what) {
@@ -135,7 +141,6 @@ void AcrylicWindow::_bind_methods() {
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, always_on_top);
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_content);
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_right_click);
-	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, dim_inactive);
 	BIND_PROPERTY(AcrylicWindow, Variant::FLOAT, dim_strength);
 	
 	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, frame, "None, Default, Custom");
@@ -219,7 +224,6 @@ DEFINE_PROPERTY_GET(AcrylicWindow, float, text_size)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, always_on_top)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, drag_by_content)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, drag_by_right_click)
-DEFINE_PROPERTY_GET(AcrylicWindow, bool, dim_inactive)
 DEFINE_PROPERTY_GET(AcrylicWindow, float, dim_strength)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, modify_editor)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Frame, frame)
@@ -235,7 +239,6 @@ DEFINE_PROPERTY_GET(AcrylicWindow, Color, clear_color)
 
 DEFINE_PROPERTY_SET(AcrylicWindow, bool, drag_by_content)
 DEFINE_PROPERTY_SET(AcrylicWindow, bool, drag_by_right_click)
-DEFINE_PROPERTY_SET(AcrylicWindow, bool, dim_inactive)
 DEFINE_PROPERTY_SET(AcrylicWindow, float, dim_strength)
 
 void AcrylicWindow::set_modify_editor(const bool p_modify_editor) {

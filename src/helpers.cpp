@@ -13,9 +13,13 @@
 #include "helpers.hpp"
 
 #include <godot_cpp/classes/control.hpp>
+#include <godot_cpp/classes/display_server.hpp>
 #include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/popup.hpp>
+#include <godot_cpp/classes/rendering_server.hpp>
 #include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/core/error_macros.hpp>
+
 
 #include <cstdarg>
 #include <ctime>
@@ -39,6 +43,72 @@ bool is_editor() {
 	return engine->is_editor_hint();
 }
 
+bool has_popup(Window* window) {
+	//TypedArray<Node> nodes = window->find_children("", "Popup", true, false);
+	//for (int i = 0; i < nodes.size(); i++) {
+	//	Popup* popup = Object::cast_to<Popup>(nodes[i]);
+	//	if (popup->is_visible())
+	//		return true;
+	//}
+
+	//Control* focus = window->gui_get_focus_owner();
+	//if (focus)
+	//	print_debug("%s", focus->get_name().c_escape().ascii().get_data());
+
+	//auto rendering_server = RenderingServer::get_singleton();
+	//auto display_server = DisplayServer::get_singleton();
+
+	//return display_server->window_get_active_popup() != DisplayServer::INVALID_WINDOW_ID;
+
+	int child_count = window->get_child_count(true);
+	for (int i = 0; i < child_count; i++) {
+		Node* child = window->get_child(i, true);
+
+		Popup* popup = Object::cast_to<Popup>(child);
+		if (popup) {
+			if (popup->is_visible())
+				return true;
+
+			continue;
+		}
+
+		Control* control = Object::cast_to<Control>(child);
+		if (control) {
+			if (control->is_visible() && has_popup(control))
+				return true;
+			
+			continue;
+		}
+	}
+
+	return false;
+}
+
+bool has_popup(Control* control) {
+	int child_count = control->get_child_count(true);
+	for (int i = 0; i < child_count; i++) {
+		Node* child = control->get_child(i, true);
+
+		Popup* popup = Object::cast_to<Popup>(child);
+		if (popup) {
+			if (popup->is_visible())
+				return true;
+
+			continue;
+		}
+
+		Control* child_control = Object::cast_to<Control>(child);
+		if (child_control) {
+			if (child_control->is_visible() && has_popup(child_control))
+				return true;
+
+			continue;
+		}
+	}
+
+	return false;
+}
+
 Control* find_mouse_blocking_control(Window* window, int search_depth) {
 	Viewport *viewport = window->get_viewport();
 	if (!viewport) {
@@ -52,9 +122,14 @@ Control* find_mouse_blocking_control(Window* window, int search_depth) {
 Control* find_mouse_blocking_control(Window* window, const Vector2& global_mouse_position, int search_depth) {
 	int child_count = window->get_child_count();
 	for (int i = 0; i < child_count; i++) {
-		Control* control = Object::cast_to<Control>(window->get_child(i));
-		if (!control)
+		Node* child = window->get_child(i);
+		//print_debug("%s", child->get_name().c_escape().ascii().get_data());
+
+		Control* control = Object::cast_to<Control>(child);
+		if (!control) {
+			print_debug("NOT CONTROL");
 			continue;
+		}
 
 		Control* blocking_control = find_mouse_blocking_control(control, global_mouse_position, search_depth);
 		if (blocking_control)
@@ -69,22 +144,27 @@ Control* find_mouse_blocking_control(Control* control, bool ignore_self, int sea
 }
 
 Control* find_mouse_blocking_control(Control* control, const Vector2& global_mouse_position, bool ignore_self, int search_depth) {
-	if (!control->get_global_rect().has_point(global_mouse_position))
-		return nullptr;
-
-	if (!ignore_self && control->get_mouse_filter() == Control::MOUSE_FILTER_STOP)
-	//if (!ignore_self && control->get_mouse_filter() != Control::MOUSE_FILTER_IGNORE)
-		return control;
+	if (control->get_global_rect().has_point(global_mouse_position)) {
+		if (!ignore_self && control->get_mouse_filter() == Control::MOUSE_FILTER_STOP)
+			//if (!ignore_self && control->get_mouse_filter() != Control::MOUSE_FILTER_IGNORE)
+			return control;
+	}
 
 	int child_count = control->get_child_count();
 	for (int i = 0; i < child_count; i++) {
+		//print_debug("  %s", control->get_child(i)->get_name().c_escape().ascii().get_data());
+
 		Control* child_control = Object::cast_to<Control>(control->get_child(i));
-		if (!child_control)
+		if (!child_control) {
+			//print_debug("NOT CONTROL");
 			continue;
+		}
 
 		Control* blocking_control = find_mouse_blocking_control(child_control, global_mouse_position, false, search_depth > 0 ? (search_depth - 1) : -1);
-		if (blocking_control)
+		if (blocking_control) {
+			//print_debug("  BLOCK: %s", blocking_control->get_name().c_escape().ascii().get_data());
 			return blocking_control;
+		}
 	}
 
 	return nullptr;

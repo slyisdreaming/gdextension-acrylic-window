@@ -16,10 +16,14 @@
 
 namespace godot {
 	class Control;
+	class Popup;
 	class Vector2;
 	class Window;
 
 	bool is_editor();
+
+	bool has_popup(Window* window);
+	bool has_popup(Control* control);
 
 	// If search_depth == -1 then check all child controls.
 	// Else check only controls up to search_depth:
@@ -48,6 +52,9 @@ namespace godot {
 //--------------------------------------------------------------------------
 // PRINT HELPERS
 //--------------------------------------------------------------------------
+
+// EXAMPLES
+// print_debug("Control Name: %s", control->get_name().c_escape().ascii().get_data());
 
 void print_error_impl(const char* category, const char* funcname, const char* format, ...);
 void print_warning_impl(const char* category, const char* funcname, const char* format, ...);

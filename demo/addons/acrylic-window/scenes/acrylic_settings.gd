@@ -33,7 +33,6 @@ enum Preset {
 @onready var always_on_top_button: CheckButton = $AlwaysOnTopButton
 @onready var drag_by_content_button: CheckButton = $DragByContentButton
 @onready var drag_by_right_click_button: CheckButton = $DragByRightClickButton
-@onready var dim_inactive_button: CheckButton = $DimInactiveButton
 @onready var dim_strength_slider: HSlider = $DimStrengthSlider
 @onready var frame_button: OptionButton = $FrameButton
 @onready var backdrop_button: OptionButton = $BackdropButton
@@ -128,7 +127,6 @@ func update_ui() -> void:
 	always_on_top_button.button_pressed = acrylic_window.always_on_top
 	drag_by_content_button.button_pressed = acrylic_window.drag_by_content
 	drag_by_right_click_button.button_pressed = acrylic_window.drag_by_right_click
-	dim_inactive_button.button_pressed = acrylic_window.dim_inactive
 	dim_strength_slider.value = acrylic_window.dim_strength
 	frame_button.select(acrylic_window.frame)
 	backdrop_button.select(acrylic_window.backdrop)
@@ -171,10 +169,6 @@ func _on_drag_by_content_button_toggled(toggled_on: bool) -> void:
 
 func _on_drag_by_right_click_button_toggled(toggled_on: bool) -> void:
 	acrylic_window.drag_by_right_click = toggled_on
-
-
-func _on_dim_inactive_button_toggled(toggled_on: bool) -> void:
-	acrylic_window.dim_inactive = toggled_on
 
 
 func _on_dim_strength_slider_value_changed(value: float) -> void:

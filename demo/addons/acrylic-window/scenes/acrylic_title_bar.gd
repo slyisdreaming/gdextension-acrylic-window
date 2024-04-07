@@ -1,8 +1,8 @@
-class_name AcrylicTitleBarPrototype
+class_name AcrylicTitleBar
 extends ColorRect
 
 #**************************************************************************#
-#  acrylic_title_bar_prototype.gd                                          #
+#  acrylic_title_bar.gd                                                    #
 #                                                                          #
 #**************************************************************************#
 #  MIT License                                                             #
@@ -127,7 +127,7 @@ func _on_close_button_pressed() -> void:
 		
 
 func _on_settings_button_mouse_entered() -> void:
-	animate_on_hover(true, settings_button, settings_tween)
+	animate_on_hover(true, settings_button, settings_tween, 0.9)
 
 
 func _on_settings_button_mouse_exited() -> void:
@@ -135,7 +135,7 @@ func _on_settings_button_mouse_exited() -> void:
 
 
 func _on_pin_button_mouse_entered() -> void:
-	animate_on_hover(true, pin_button, pin_tween)
+	animate_on_hover(true, pin_button, pin_tween, 0.9)
 
 
 func _on_pin_button_mouse_exited() -> void:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://ltrqc0y06eqr"]
 
-[ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_title_bar_prototype.gd" id="1_ungu4"]
+[ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_title_bar.gd" id="1_ungu4"]
 
 [sub_resource type="FontVariation" id="FontVariation_0haeb"]
 
@@ -13,10 +13,10 @@ subpixel_positioning = 0
 bg_color = Color(0.129412, 0.603922, 0.164706, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyukf"]
-bg_color = Color(0.129412, 0.603922, 0.164706, 0)
+bg_color = Color(0, 0.658824, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t310m"]
-bg_color = Color(0.1134, 0.54, 0.14184, 1)
+bg_color = Color(0, 0.658824, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iqj7x"]
 
@@ -24,10 +24,10 @@ bg_color = Color(0.1134, 0.54, 0.14184, 1)
 bg_color = Color(0.839216, 0.545098, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouvmi"]
-bg_color = Color(0.839216, 0.545098, 0, 0)
+bg_color = Color(0.909804, 0.317647, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ejv6b"]
-bg_color = Color(0.701961, 0.454902, 0, 1)
+bg_color = Color(0.909804, 0.317647, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cgsnq"]
 
@@ -35,7 +35,7 @@ bg_color = Color(0.701961, 0.454902, 0, 1)
 bg_color = Color(0.231373, 0.231373, 0.231373, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reugf"]
-bg_color = Color(0.109804, 0.109804, 0.109804, 0)
+bg_color = Color(0.752941, 0.752941, 0.752941, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es52n"]
 bg_color = Color(0.780392, 0.780392, 0.780392, 0.101961)

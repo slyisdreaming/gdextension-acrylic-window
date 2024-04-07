@@ -60,10 +60,9 @@ public:
 	DECLARE_PROPERTY(bool, modify_editor, false)
 
 	DECLARE_PROPERTY(float, text_size, 1.25)
-	DECLARE_PROPERTY(bool, always_on_top, true)
-	DECLARE_PROPERTY(bool, drag_by_content, false)
+	DECLARE_PROPERTY(bool, always_on_top, false)
+	DECLARE_PROPERTY(bool, drag_by_content, true)
 	DECLARE_PROPERTY(bool, drag_by_right_click, true)
-	DECLARE_PROPERTY(bool, dim_inactive, true)
 	DECLARE_PROPERTY(float, dim_strength, 0.25)
 
 	DECLARE_PROPERTY(Frame, frame, FRAME_CUSTOM)

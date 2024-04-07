@@ -18,6 +18,7 @@
 #include <godot_cpp/classes/display_server.hpp>
 #include <godot_cpp/classes/tween.hpp>
 #include <godot_cpp/classes/window.hpp>
+#include <godot_cpp/classes/rendering_server.hpp>
 
 #include <map>
 #include <mutex>
@@ -173,14 +174,7 @@ namespace {
 	}
 
 	bool on_ncactivate(WPARAM wParam, AcrylicWindow* window) {
-		if (wParam == FALSE) {
-			if (window->get_dim_inactive() && !window->get_always_on_top())
-				window->dim(true);
-		}
-		else {
-			window->dim(false);
-		}
-
+		window->dim(wParam == FALSE);
 		return true;
 	}
 
@@ -289,15 +283,18 @@ namespace {
 				return HTCAPTION;
 			}
 
+			// Need this to close popups correctly.
+			if (has_popup(root_window))
+				return HTCLIENT;
+
 			Control* blocking_control = find_mouse_blocking_control(root_window);
-			if (!blocking_control) {
+			if (!blocking_control)
 				return HTCAPTION;
-			}
-			else {
-				// TOOD glitchy
-				//if (blocking_control->has_meta("maximize_button"))
-				//	return HTMAXBUTTON;
-			}
+			
+			// Need this to show Aero Snap Layouts.
+			// TODO glitchy
+			// if (blocking_control->has_meta("maximize_button"))
+			//	return HTMAXBUTTON;
 
 			// print_debug("%s", blocking_control->get_name().c_escape().ascii().get_data());
 		}

@@ -21,7 +21,7 @@ extends AcrylicWindow
 #	Scale = 1.5
 
 @onready var settings: AcrylicSettings = $AcrylicSettings
-@onready var title_bar: AcrylicTitleBarPrototype = $AcrylicTitleBarPrototype
+@onready var title_bar: AcrylicTitleBar = $AcrylicTitleBar
 
 #var dim_rect: ColorRect
 
@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 	
 
 
-func _on_acrylic_title_bar_prototype_settings_toggled(toggled_on: bool) -> void:
+func _on_acrylic_title_bar_settings_toggled(toggled_on: bool) -> void:
 	if settings_tween:
 		settings_tween.kill()
 	settings_tween = create_tween()

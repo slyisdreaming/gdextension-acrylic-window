@@ -57,13 +57,6 @@ text = "Drag by Right Click"
 [node name="DragByRightClickButton" type="CheckButton" parent="."]
 layout_mode = 2
 
-[node name="DimInactiveLabel" type="Label" parent="."]
-layout_mode = 2
-text = "Dim Inactive"
-
-[node name="DimInactiveButton" type="CheckButton" parent="."]
-layout_mode = 2
-
 [node name="DimStrengthLabel" type="Label" parent="."]
 layout_mode = 2
 text = "Dim Strength"
@@ -161,7 +154,6 @@ layout_mode = 2
 [connection signal="toggled" from="AlwaysOnTopButton" to="." method="_on_always_on_top_button_toggled"]
 [connection signal="toggled" from="DragByContentButton" to="." method="_on_drag_by_content_button_toggled"]
 [connection signal="toggled" from="DragByRightClickButton" to="." method="_on_drag_by_right_click_button_toggled"]
-[connection signal="toggled" from="DimInactiveButton" to="." method="_on_dim_inactive_button_toggled"]
 [connection signal="value_changed" from="DimStrengthSlider" to="." method="_on_dim_strength_slider_value_changed"]
 [connection signal="item_selected" from="FrameButton" to="." method="_on_frame_button_item_selected"]
 [connection signal="item_selected" from="BackdropButton" to="." method="_on_backdrop_button_item_selected"]
