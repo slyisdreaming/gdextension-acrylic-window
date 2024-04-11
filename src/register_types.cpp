@@ -1,5 +1,6 @@
 #include "register_types.hpp"
 #include "acrylic_window.hpp"
+#include "scrollable_option_button.hpp"
 #include "switch_tween.hpp"
 
 #include <gdextension_interface.h>
@@ -14,6 +15,7 @@ void initialize_module(ModuleInitializationLevel p_level) {
 	}
 
 	ClassDB::register_class<AcrylicWindow>();
+	ClassDB::register_class<ScrollableOptionButton>();
 	ClassDB::register_class<SwitchTween>();
 }
 

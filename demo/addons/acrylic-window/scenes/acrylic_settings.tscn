@@ -17,7 +17,7 @@ layout_mode = 2
 theme = ExtResource("2_h8a4h")
 text = "Preset"
 
-[node name="PresetButton" type="OptionButton" parent="."]
+[node name="PresetButton" type="ScrollableOptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
@@ -89,7 +89,7 @@ layout_mode = 2
 theme = ExtResource("2_h8a4h")
 text = "Frame"
 
-[node name="FrameButton" type="OptionButton" parent="."]
+[node name="FrameButton" type="ScrollableOptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
@@ -98,7 +98,7 @@ layout_mode = 2
 theme = ExtResource("2_h8a4h")
 text = "Backdrop"
 
-[node name="BackdropButton" type="OptionButton" parent="."]
+[node name="BackdropButton" type="ScrollableOptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
@@ -115,7 +115,7 @@ layout_mode = 2
 theme = ExtResource("2_h8a4h")
 text = "Autohide Title Bar"
 
-[node name="AutohideTitleBarButton" type="OptionButton" parent="."]
+[node name="AutohideTitleBarButton" type="ScrollableOptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
@@ -124,7 +124,7 @@ layout_mode = 2
 theme = ExtResource("2_h8a4h")
 text = "Accent Title Bar"
 
-[node name="AccentTitleBarButton" type="OptionButton" parent="."]
+[node name="AccentTitleBarButton" type="ScrollableOptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 

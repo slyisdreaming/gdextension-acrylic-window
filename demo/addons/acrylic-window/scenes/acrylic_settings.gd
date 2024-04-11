@@ -19,13 +19,14 @@ enum Preset {
 	AcrylicFaintBlue,
 	AcrylicRed,
 	AcrylicGreen,
-	AcrylicDarkGrey,
+	AcrylicGray,
+	AcrylicBlack,
 	AcrylicWhite,
 	MicaBlue,
 	MicaRed,
 	MicaGreen,
 	MicaGrey,
-	MicaDarkGrey,
+	MicaBlack,
 	MicaWhite
 }
 
@@ -155,14 +156,19 @@ func set_preset(preset: Preset):
 			acrylic_window.text_color = "ffffff"
 			acrylic_window.clear_color = "041f0f34"
 			
-		Preset.AcrylicDarkGrey:
+		Preset.AcrylicGray:
+			acrylic_window.backdrop = AcrylicWindow.BACKDROP_ACRYLIC
+			acrylic_window.auto_colors = false
+			acrylic_window.base_color = "585858bd"
+			acrylic_window.border_color = "525252be"
+			acrylic_window.title_bar_color = "3c3c3cbe"
+			acrylic_window.text_color = "ffffff"
+			acrylic_window.clear_color = "0d0d0dbd"
+			
+		Preset.AcrylicBlack:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_ACRYLIC
 			acrylic_window.auto_colors = true
 			acrylic_window.base_color = "0e0e0ebd"
-			acrylic_window.border_color = "678b75a3"
-			acrylic_window.title_bar_color = "2d512da3"
-			acrylic_window.text_color = "ffffff"
-			acrylic_window.clear_color = "041f0f34"
 			
 		Preset.AcrylicWhite:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_ACRYLIC
@@ -210,7 +216,7 @@ func set_preset(preset: Preset):
 			acrylic_window.text_color = "ffffff"
 			acrylic_window.clear_color = "0c0c0cce"
 			
-		Preset.MicaDarkGrey:
+		Preset.MicaBlack:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_MICA
 			acrylic_window.auto_colors = false
 			acrylic_window.base_color = "181818af"
