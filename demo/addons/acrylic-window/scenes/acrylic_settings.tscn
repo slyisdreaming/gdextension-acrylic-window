@@ -1,10 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cafachqyopcl4"]
+[gd_scene load_steps=3 format=3 uid="uid://cafachqyopcl4"]
 
 [ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_settings.gd" id="1_r4nb6"]
+[ext_resource type="Theme" uid="uid://bgwq00pnys625" path="res://addons/acrylic-window/acrylic_theme.tres" id="2_h8a4h"]
 
 [node name="AcrylicSettings" type="GridContainer"]
 offset_right = 260.0
 offset_bottom = 430.0
+theme = ExtResource("2_h8a4h")
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 5
 columns = 2
@@ -12,24 +14,30 @@ script = ExtResource("1_r4nb6")
 
 [node name="PresetLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Preset"
 
 [node name="PresetButton" type="OptionButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="Control2" type="Control" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="TextSizeLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Text Size"
 
 [node name="TextSizeSlider" type="HSlider" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 min_value = 1.0
 max_value = 2.0
 step = 0.25
@@ -38,31 +46,39 @@ ticks_on_borders = true
 
 [node name="AlwaysOnTopLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Always on Top"
 
 [node name="AlwaysOnTopButton" type="CheckButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="DragByContentLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Drag by Content"
 
 [node name="DragByContentButton" type="CheckButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="DragByRightClickLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Drag by Right Click"
 
 [node name="DragByRightClickButton" type="CheckButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="DimStrengthLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Dim Strength"
 
 [node name="DimStrengthSlider" type="HSlider" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 max_value = 1.0
 step = 0.05
 value = 0.25
@@ -70,84 +86,106 @@ ticks_on_borders = true
 
 [node name="FrameLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Frame"
 
 [node name="FrameButton" type="OptionButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="BackdropLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Backdrop"
 
 [node name="BackdropButton" type="OptionButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="Control3" type="Control" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="Control4" type="Control" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="AutohideTitleBarLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Autohide Title Bar"
 
 [node name="AutohideTitleBarButton" type="OptionButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="AccentTitleBarLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Accent Title Bar"
 
 [node name="AccentTitleBarButton" type="OptionButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="AutoColorsLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Auto Colors"
 
 [node name="AutoColorsButton" type="CheckButton" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="BaseColorLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Base Color"
 
 [node name="BaseColorButton" type="ColorPickerButton" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="BorderColorLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Border Color"
 
 [node name="BorderColorButton" type="ColorPickerButton" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="TitleBarColorLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Title Bar Color"
 
 [node name="TitleBarColorButton" type="ColorPickerButton" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="TextColorLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Text Color"
 
 [node name="TextColorButton" type="ColorPickerButton" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [node name="ClearColorLabel" type="Label" parent="."]
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 text = "Clear Color"
 
 [node name="ClearColorButton" type="ColorPickerButton" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme = ExtResource("2_h8a4h")
 
 [connection signal="item_selected" from="PresetButton" to="." method="_on_preset_button_item_selected"]
 [connection signal="value_changed" from="TextSizeSlider" to="." method="_on_text_size_slider_value_changed"]

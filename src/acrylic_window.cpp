@@ -137,23 +137,23 @@ void AcrylicWindow::_bind_methods() {
 
 	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, modify_editor);
 
-	BIND_PROPERTY(AcrylicWindow, Variant::FLOAT, text_size);
-	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, always_on_top);
-	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_content);
-	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, drag_by_right_click);
-	BIND_PROPERTY(AcrylicWindow, Variant::FLOAT, dim_strength);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::FLOAT, text_size);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::BOOL, always_on_top);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::BOOL, drag_by_content);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::BOOL, drag_by_right_click);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::FLOAT, dim_strength);
 	
-	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, frame, "None, Default, Custom");
-	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, backdrop, "Solid, Transparent, Acrylic, Mica, Tabbed");
-	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, autohide_title_bar, "Never, Always, Maximized");
-	BIND_PROPERTY_ENUM(AcrylicWindow, Variant::INT, accent_title_bar, "Never, Always, Mouse Over");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, frame, "None, Default, Custom");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, backdrop, "Solid, Transparent, Acrylic, Mica, Tabbed");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, autohide_title_bar, "Never, Always, Maximized");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, accent_title_bar, "Never, Always, Mouse Over");
 
-	BIND_PROPERTY(AcrylicWindow, Variant::BOOL, auto_colors);
-	BIND_PROPERTY(AcrylicWindow, Variant::COLOR, base_color);
-	BIND_PROPERTY(AcrylicWindow, Variant::COLOR, border_color);
-	BIND_PROPERTY(AcrylicWindow, Variant::COLOR, title_bar_color);
-	BIND_PROPERTY(AcrylicWindow, Variant::COLOR, text_color);
-	BIND_PROPERTY(AcrylicWindow, Variant::COLOR, clear_color);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::BOOL, auto_colors);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::COLOR, base_color);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::COLOR, border_color);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::COLOR, title_bar_color);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::COLOR, text_color);
+	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::COLOR, clear_color);
 
 	BIND_FUNCTION(AcrylicWindow, minimize);
 	BIND_FUNCTION(AcrylicWindow, maximize);
@@ -261,6 +261,8 @@ void AcrylicWindow::set_text_size(const float p_text_size) {
 		return;
 
 	text_size = p_text_size;
+
+	EMIT_SIGNAL_CHANGED(text_size);
 }
 
 void AcrylicWindow::set_always_on_top(const bool p_always_on_top) {
@@ -272,6 +274,8 @@ void AcrylicWindow::set_always_on_top(const bool p_always_on_top) {
 		return;
 
 	always_on_top = p_always_on_top;
+
+	EMIT_SIGNAL_CHANGED(always_on_top);
 
 	// Can't use this code because it affects all the windows.
 	// DisplayServer::get_singleton()->window_set_flag(DisplayServer::WINDOW_FLAG_ALWAYS_ON_TOP, always_on_top);
@@ -292,6 +296,8 @@ void AcrylicWindow::set_frame(const AcrylicWindow::Frame p_frame) {
 	}
 
 	frame = p_frame;
+
+	EMIT_SIGNAL_CHANGED(frame);
 }
 
 void AcrylicWindow::set_backdrop(const AcrylicWindow::Backdrop p_backdrop) {
@@ -303,21 +309,27 @@ void AcrylicWindow::set_backdrop(const AcrylicWindow::Backdrop p_backdrop) {
 		return;
 
 	backdrop = p_backdrop;
+
+	EMIT_SIGNAL_CHANGED(backdrop);
 }
 
 void AcrylicWindow::set_autohide_title_bar(const AcrylicWindow::Autohide p_autohide_title_bar) {
 	PROPERTY_GUARD(autohide_title_bar);
 	autohide_title_bar = p_autohide_title_bar;
+	EMIT_SIGNAL_CHANGED(autohide_title_bar);
 }
 
 void AcrylicWindow::set_accent_title_bar(const AcrylicWindow::Accent p_accent_title_bar) {
 	PROPERTY_GUARD(accent_title_bar);
 	accent_title_bar = p_accent_title_bar;
+	EMIT_SIGNAL_CHANGED(accent_title_bar);
 }
 
 void AcrylicWindow::set_auto_colors(const bool p_auto_colors) {
 	PROPERTY_GUARD(auto_colors);		
 	auto_colors = p_auto_colors;
+	EMIT_SIGNAL_CHANGED(auto_colors);
+
 	if (auto_colors) {
 		adjust_colors();
 
@@ -329,6 +341,12 @@ void AcrylicWindow::set_auto_colors(const bool p_auto_colors) {
 		native.set_title_bar_color(title_bar_color);
 		native.set_text_color(text_color);
 		native.set_clear_color(clear_color);
+
+		EMIT_SIGNAL_CHANGED(base_color);
+		EMIT_SIGNAL_CHANGED(border_color);
+		EMIT_SIGNAL_CHANGED(title_bar_color);
+		EMIT_SIGNAL_CHANGED(text_color);
+		EMIT_SIGNAL_CHANGED(clear_color);
 	}
 }
 
@@ -337,6 +355,8 @@ void AcrylicWindow::set_base_color(const Color &p_base_color) {
 
 	base_color = p_base_color;
 	queue_redraw();
+
+	EMIT_SIGNAL_CHANGED(base_color);
 
 	if (auto_colors) {
 		adjust_colors();
@@ -349,6 +369,11 @@ void AcrylicWindow::set_base_color(const Color &p_base_color) {
 		native.set_title_bar_color(title_bar_color);
 		native.set_text_color(text_color);
 		native.set_clear_color(clear_color);
+
+		EMIT_SIGNAL_CHANGED(border_color);
+		EMIT_SIGNAL_CHANGED(title_bar_color);
+		EMIT_SIGNAL_CHANGED(text_color);
+		EMIT_SIGNAL_CHANGED(clear_color);
 	}
 }
 
@@ -364,6 +389,8 @@ void AcrylicWindow::set_border_color(const Color &p_border_color) {
 		return;
 	
 	border_color = p_border_color;
+
+	EMIT_SIGNAL_CHANGED(border_color);
 }
 
 void AcrylicWindow::set_title_bar_color(const Color &p_title_bar_color) {
@@ -378,6 +405,8 @@ void AcrylicWindow::set_title_bar_color(const Color &p_title_bar_color) {
 		return;
 	
 	title_bar_color = p_title_bar_color;
+
+	EMIT_SIGNAL_CHANGED(title_bar_color);
 }
 
 void AcrylicWindow::set_text_color(const Color &p_text_color) {
@@ -392,6 +421,8 @@ void AcrylicWindow::set_text_color(const Color &p_text_color) {
 		return;
 
 	text_color = p_text_color;
+
+	EMIT_SIGNAL_CHANGED(text_color);
 }
 
 void AcrylicWindow::set_clear_color(const Color &p_clear_color) {
@@ -406,6 +437,8 @@ void AcrylicWindow::set_clear_color(const Color &p_clear_color) {
 		return;
 	
 	clear_color = p_clear_color;
+
+	EMIT_SIGNAL_CHANGED(clear_color);
 }
 
 void AcrylicWindow::adjust_colors() {

@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://ltrqc0y06eqr"]
+[gd_scene load_steps=25 format=3 uid="uid://ltrqc0y06eqr"]
 
+[ext_resource type="Theme" uid="uid://bgwq00pnys625" path="res://addons/acrylic-window/acrylic_theme.tres" id="1_gxot4"]
 [ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_title_bar.gd" id="1_ungu4"]
 
 [sub_resource type="FontVariation" id="FontVariation_0haeb"]
@@ -70,6 +71,7 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 mouse_filter = 1
+theme = ExtResource("1_gxot4")
 color = Color(0.2, 0.2, 0.2, 0)
 script = ExtResource("1_ungu4")
 
@@ -80,10 +82,12 @@ anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = 421.0
 grow_vertical = 2
+theme = ExtResource("1_gxot4")
 theme_override_constants/separation = 0
 
 [node name="TitleLabel" type="Label" parent="TitleHeader"]
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_override_fonts/font = SubResource("FontVariation_0haeb")
 theme_override_font_sizes/font_size = 22
 text = "Acrylic Window - GDExtension Demo"
@@ -97,11 +101,13 @@ anchor_bottom = 1.0
 offset_left = -150.0
 grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("1_gxot4")
 theme_override_constants/separation = 0
 
 [node name="SettingsButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 45)
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
@@ -115,6 +121,7 @@ text = ""
 [node name="PinButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
@@ -129,6 +136,7 @@ text = ""
 [node name="MinimizeButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("SystemFont_dck5u")
 theme_override_font_sizes/font_size = 24
@@ -141,6 +149,7 @@ text = "­ー"
 [node name="MaximizeButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_type_variation = &"FlatButton"
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_6jt4t")
@@ -153,6 +162,7 @@ metadata/maximize_button = false
 [node name="CloseButton" type="Button" parent="TitleButtons"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+theme = ExtResource("1_gxot4")
 theme_type_variation = &"FlatButton"
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_2xoep")

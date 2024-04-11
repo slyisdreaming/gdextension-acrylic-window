@@ -109,5 +109,16 @@ void print_debug_impl(const char* category, const char* funcname, const char* fo
 	::godot::ClassDB::bind_method(::godot::D_METHOD("set_"#property_name, "p_"#property_name), &class_name::set_ ## property_name); \
 	::godot::ClassDB::add_property(#class_name, ::godot::PropertyInfo(property_type, #property_name,  ::godot::PROPERTY_HINT_ENUM, enum_values), "set_"#property_name, "get_"#property_name);
 
+#define BIND_PROPERTY_AND_SIGNAL(class_name, property_type, property_name) \
+	BIND_PROPERTY(class_name, property_type, property_name) \
+	ADD_SIGNAL(::godot::MethodInfo(#property_name"_changed", ::godot::PropertyInfo(property_type, "new_"#property_name)));
+
+#define BIND_PROPERTY_ENUM_AND_SIGNAL(class_name, property_type, property_name, enum_values) \
+	BIND_PROPERTY_ENUM(class_name, property_type, property_name, enum_values) \
+	ADD_SIGNAL(::godot::MethodInfo(#property_name"_changed", ::godot::PropertyInfo(property_type, "new_"#property_name)));
+
 #define BIND_FUNCTION(class_name, function_name, ...) \
 	::godot::ClassDB::bind_method(::godot::D_METHOD(#function_name, __VA_ARGS__), &class_name::function_name);
+
+#define EMIT_SIGNAL_CHANGED(property_name) \
+	emit_signal(#property_name"_changed", property_name)

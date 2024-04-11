@@ -18,8 +18,8 @@ signal settings_toggled(toggled_on: bool)
 @export var acrylic_window: AcrylicWindow
 
 @onready var title_buttons: HBoxContainer = $TitleButtons
-@onready var pin_button: Button = $TitleButtons/PinButton
 @onready var settings_button: Button = $TitleButtons/SettingsButton
+@onready var pin_button: Button = $TitleButtons/PinButton
 @onready var minimize_button: Button = $TitleButtons/MinimizeButton
 @onready var maximize_button: Button = $TitleButtons/MaximizeButton
 @onready var close_button: Button = $TitleButtons/CloseButton
@@ -33,16 +33,20 @@ var minimize_tween: Tween
 var close_tween: Tween
 
 func _ready() -> void:
-	pass
+	# SIGNALS
+	acrylic_window.text_size_changed.connect(update_text_size)
+	acrylic_window.always_on_top_changed.connect(update_always_on_top)
+	acrylic_window.frame_changed.connect(update_frame)
+	acrylic_window.text_color_changed.connect(update_text_color)
+	
+	# UPDATES
+	update_text_size(acrylic_window.text_size)
+	update_always_on_top(acrylic_window.always_on_top)
+	update_frame(acrylic_window.frame)
+	update_text_color(acrylic_window.text_color)
 	
 	
-func _process(delta: float) -> void:	
-	var s = 1.0 / acrylic_window.text_size
-	scale = Vector2(s, s)
-	set_anchor_and_offset(SIDE_RIGHT, acrylic_window.text_size, 0)
-	
-	update_pin_button(acrylic_window.always_on_top)
-
+func _process(delta: float) -> void:
 	var mouse_position: Vector2 = get_global_mouse_position()
 	var has_mouse: bool = get_global_rect().has_point(mouse_position)
 	
@@ -97,20 +101,40 @@ func animate_on_hover(hover: bool, control: Control, tween: Tween, max_a: float 
 		tween.tween_property(control, "theme_override_styles/hover:bg_color:a", 0, 0.4)
 		tween.tween_property(control, "theme_override_styles/normal:bg_color:a", 0, 0.4)
 
+#region UPDATES
+
+func update_text_size(text_size: float) -> void:
+	var s = 1.0 / text_size
+	scale = Vector2(s, s)
+	set_anchor_and_offset(SIDE_RIGHT, text_size, 0)
 	
+
+func update_always_on_top(always_on_top: bool) -> void:
+	pin_button.button_pressed = always_on_top
+	pin_button.text = "" if always_on_top else ""
+	
+	
+func update_frame(frame: AcrylicWindow.Frame) -> void:
+	visible = frame == AcrylicWindow.FRAME_CUSTOM
+	
+	
+func update_text_color(text_color: Color) -> void:
+	settings_button.add_theme_color_override("font_color", text_color)
+	pin_button.add_theme_color_override("font_color", text_color)
+	minimize_button.add_theme_color_override("font_color", text_color)
+	maximize_button.add_theme_color_override("font_color", text_color)
+	close_button.add_theme_color_override("font_color", text_color)
+
+
+#endregion
+
 #region CALLBACKS
 
 func _on_settings_button_toggled(toggled_on: bool) -> void:
 	settings_toggled.emit(toggled_on)
 	
-	
-func update_pin_button(toggled_on: bool) -> void:
-	pin_button.button_pressed = toggled_on
-	pin_button.text = "" if toggled_on else ""
-
 
 func _on_pin_button_toggled(toggled_on: bool) -> void:
-	update_pin_button(toggled_on)
 	acrylic_window.always_on_top = toggled_on
 
 
