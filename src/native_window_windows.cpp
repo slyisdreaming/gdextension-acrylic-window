@@ -150,14 +150,14 @@ namespace {
 		return false;
 	}
 
-	bool on_key_up(WPARAM wParam, LPARAM lParam, AcrylicWindow* window) {
+	bool on_key_up(HWND hwnd, WPARAM wParam, LPARAM lParam, AcrylicWindow* window) {
 		// Use magical numbers because Godot overrides key constants on Windows.
 		switch (wParam) {
 		case 0x7A: // F11
 			window->maximize();
 			return true;
 
-#if DEBUG_DWM
+#if 0//DEBUG_DWM
 		case 0x26: // Arrow Up
 			dy += 1;
 			SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
@@ -178,9 +178,19 @@ namespace {
 		return true;
 	}
 
-	bool on_nccalcsize(HWND hwnd, WPARAM wParam, LPARAM lParam) {
+	bool on_nccalcsize(AcrylicWindow::Frame frame, HWND hwnd, WPARAM wParam, LPARAM lParam) {
 		if (wParam == FALSE)
 			return false;
+
+		if (frame == AcrylicWindow::FRAME_DEFAULT)
+			return false;
+
+		if (frame == AcrylicWindow::FRAME_BORDERLESS) {
+			// remove a thin resize border at the top
+			NCCALCSIZE_PARAMS* sz = (NCCALCSIZE_PARAMS*)lParam;
+			sz->rgrc[0].top -= 2;
+			return true;
+		}
 		
 		RECT border = {};
 		if (!get_window_border(hwnd, &border)) {
@@ -189,6 +199,7 @@ namespace {
 		}
 
 		NCCALCSIZE_PARAMS* sz = (NCCALCSIZE_PARAMS*)lParam;
+
 		sz->rgrc[0].top -= border.top;
 		sz->rgrc[0].left -= border.left;
 		sz->rgrc[0].right -= border.right;
@@ -315,8 +326,8 @@ namespace {
 		AcrylicWindow* window = thunk->second.window;
 		WNDPROC godot_wndproc = thunk->second.godot_wndproc;
 
-		if (window->get_frame() != AcrylicWindow::FRAME_CUSTOM)
-			return CallWindowProc(godot_wndproc, hwnd, uMsg, wParam, lParam);
+		//if (window->get_frame() != AcrylicWindow::FRAME_CUSTOM)
+		//	return CallWindowProc(godot_wndproc, hwnd, uMsg, wParam, lParam);
 
 		// If custom frame then call Godot's wndproc at the very end because
 		// otherwise it messes up window.
@@ -328,7 +339,7 @@ namespace {
 			break;
 
 		case WM_NCCALCSIZE:
-			if (on_nccalcsize(hwnd, wParam, lParam))
+			if (on_nccalcsize(window->get_frame(), hwnd, wParam, lParam))
 				return 0;
 			break;
 
@@ -339,7 +350,7 @@ namespace {
 		} break;
 		
 		case WM_KEYUP:
-			if (on_key_up(wParam, lParam, window))
+			if (on_key_up(hwnd, wParam, lParam, window))
 				return 0;
 			break;
 

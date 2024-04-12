@@ -30,8 +30,8 @@ class AcrylicWindow : public Control {
 
 public:
 	enum Frame {
-		FRAME_NONE,
 		FRAME_DEFAULT,
+		FRAME_BORDERLESS,
 		FRAME_CUSTOM
 	};
 

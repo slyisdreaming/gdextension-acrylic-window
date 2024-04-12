@@ -117,9 +117,9 @@ void AcrylicWindow::_notification(int p_what) {
 }
 
 void AcrylicWindow::_bind_methods() {
-	BIND_ENUM_CONSTANT(FRAME_NONE);
-	BIND_ENUM_CONSTANT(FRAME_CUSTOM);
 	BIND_ENUM_CONSTANT(FRAME_DEFAULT);
+	BIND_ENUM_CONSTANT(FRAME_BORDERLESS);
+	BIND_ENUM_CONSTANT(FRAME_CUSTOM);
 	
 	BIND_ENUM_CONSTANT(BACKDROP_SOLID);
 	BIND_ENUM_CONSTANT(BACKDROP_TRANSPARENT);
@@ -143,7 +143,7 @@ void AcrylicWindow::_bind_methods() {
 	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::BOOL, drag_by_right_click);
 	BIND_PROPERTY_AND_SIGNAL(AcrylicWindow, Variant::FLOAT, dim_strength);
 	
-	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, frame, "None, Default, Custom");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, frame, "Default, Borderless, Custom");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, backdrop, "Solid, Transparent, Acrylic, Mica, Tabbed");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, autohide_title_bar, "Never, Always, Maximized");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, accent_title_bar, "Never, Always, Mouse Over");

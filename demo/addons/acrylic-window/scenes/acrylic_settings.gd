@@ -15,6 +15,7 @@ extends GridContainer
 
 enum Preset {
 	AcrylicAmethyst,
+	AcrylicGlass,
 	AcrylicBlue,
 	AcrylicFaintBlue,
 	AcrylicRed,
@@ -25,7 +26,7 @@ enum Preset {
 	MicaBlue,
 	MicaRed,
 	MicaGreen,
-	MicaGrey,
+	MicaGray,
 	MicaBlack,
 	MicaWhite
 }
@@ -60,8 +61,8 @@ func _ready() -> void:
 	for key in Preset.keys():
 		preset_button.add_item(key)
 		
-	frame_button.add_item("None")
 	frame_button.add_item("Default")
+	frame_button.add_item("Borderless")
 	frame_button.add_item("Custom")
 	
 	backdrop_button.add_item("Solid")
@@ -119,6 +120,16 @@ func set_preset(preset: Preset):
 			acrylic_window.title_bar_color = "080c1da1"
 			acrylic_window.text_color = "ffffff"
 			acrylic_window.clear_color = "01020784"
+			
+		Preset.AcrylicGlass:
+			acrylic_window.backdrop = AcrylicWindow.BACKDROP_ACRYLIC
+			acrylic_window.auto_colors = false
+			acrylic_window.base_color = "00000000"
+			acrylic_window.border_color = "393939"
+			acrylic_window.title_bar_color = "00000028"
+			acrylic_window.text_color = "ffffff"
+			acrylic_window.clear_color = "02020200"
+
 			
 		Preset.AcrylicBlue:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_ACRYLIC
@@ -179,7 +190,6 @@ func set_preset(preset: Preset):
 			acrylic_window.text_color = "000000ff"
 			acrylic_window.clear_color = "262626c2"
 			
-			
 		Preset.MicaBlue:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_MICA
 			acrylic_window.auto_colors = false
@@ -207,7 +217,7 @@ func set_preset(preset: Preset):
 			acrylic_window.text_color = "ffffff"
 			acrylic_window.clear_color = "0c0c0cce"
 			
-		Preset.MicaGrey:
+		Preset.MicaGray:
 			acrylic_window.backdrop = AcrylicWindow.BACKDROP_MICA
 			acrylic_window.auto_colors = false
 			acrylic_window.base_color = "4d4d4dce"

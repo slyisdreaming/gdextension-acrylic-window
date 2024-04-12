@@ -47,3 +47,9 @@ func _on_acrylic_title_bar_settings_toggled(toggled_on: bool) -> void:
 	else:
 		settings_tween.tween_property(settings, "offset_right", 300, 0.4)
 		settings_tween.tween_property(settings, "modulate:a", 0, 0.4)
+		# This is a hack to release focus from settings.
+		# release_focus doesn't work.
+		settings.hide()
+		settings.show()
+		
+		

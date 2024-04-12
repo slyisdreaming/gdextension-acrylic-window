@@ -16,7 +16,8 @@ extends ColorRect
 signal settings_toggled(toggled_on: bool)
 
 @export var acrylic_window: AcrylicWindow
-
+@onready var title_header: HBoxContainer = $TitleHeader
+@onready var title_label: Label = $TitleHeader/TitleLabel
 @onready var title_buttons: HBoxContainer = $TitleButtons
 @onready var settings_button: Button = $TitleButtons/SettingsButton
 @onready var pin_button: Button = $TitleButtons/PinButton
@@ -36,15 +37,15 @@ func _ready() -> void:
 	# SIGNALS
 	acrylic_window.text_size_changed.connect(update_text_size)
 	acrylic_window.always_on_top_changed.connect(update_always_on_top)
-	acrylic_window.frame_changed.connect(update_frame)
 	acrylic_window.text_color_changed.connect(update_text_color)
 	
 	# UPDATES
 	update_text_size(acrylic_window.text_size)
 	update_always_on_top(acrylic_window.always_on_top)
-	update_frame(acrylic_window.frame)
 	update_text_color(acrylic_window.text_color)
 	
+	resized.connect(_on_resized)
+	_on_resized()
 	
 func _process(delta: float) -> void:
 	var mouse_position: Vector2 = get_global_mouse_position()
@@ -72,12 +73,13 @@ func _process(delta: float) -> void:
 			accent_tween.tween_property(self, "color:a", 0.0, 0.4)
 	
 	# autohide -------------------------------------------------------------
-	var should_hide: bool = false
-	match acrylic_window.autohide_title_bar:
-		AcrylicWindow.AUTOHIDE_ALWAYS:
-			should_hide = not has_mouse
-		AcrylicWindow.AUTOHIDE_MAXIMIZED:
-			should_hide = not has_mouse and get_window().mode == Window.MODE_MAXIMIZED
+	var should_hide: bool = acrylic_window.frame != AcrylicWindow.FRAME_CUSTOM
+	if not should_hide:
+		match acrylic_window.autohide_title_bar:
+			AcrylicWindow.AUTOHIDE_ALWAYS:
+				should_hide = not has_mouse
+			AcrylicWindow.AUTOHIDE_MAXIMIZED:
+				should_hide = not has_mouse and get_window().mode == Window.MODE_MAXIMIZED
 	
 	if should_hide:
 		if not autohide_tween.on:
@@ -112,10 +114,6 @@ func update_text_size(text_size: float) -> void:
 func update_always_on_top(always_on_top: bool) -> void:
 	pin_button.button_pressed = always_on_top
 	pin_button.text = "" if always_on_top else ""
-	
-	
-func update_frame(frame: AcrylicWindow.Frame) -> void:
-	visible = frame == AcrylicWindow.FRAME_CUSTOM
 	
 	
 func update_text_color(text_color: Color) -> void:
@@ -188,5 +186,10 @@ func _on_close_button_mouse_entered() -> void:
 
 func _on_close_button_mouse_exited() -> void:
 	animate_on_hover(false, close_button, close_tween)
+	
 
+func _on_resized() -> void:
+	title_label.visible = title_header.size.x < size.x - title_buttons.size.x
+	
 #endregion
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ltrqc0y06eqr"]
+[gd_scene load_steps=29 format=3 uid="uid://ltrqc0y06eqr"]
 
 [ext_resource type="Theme" uid="uid://bgwq00pnys625" path="res://addons/acrylic-window/acrylic_theme.tres" id="1_gxot4"]
 [ext_resource type="Script" path="res://addons/acrylic-window/scenes/acrylic_title_bar.gd" id="1_ungu4"]
@@ -21,8 +21,15 @@ bg_color = Color(0, 0.658824, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iqj7x"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_7qiph"]
+device = -1
+keycode = 4194332
+
+[sub_resource type="Shortcut" id="Shortcut_hyc61"]
+events = [SubResource("InputEventKey_7qiph")]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4t205"]
-bg_color = Color(0.839216, 0.545098, 0, 0)
+bg_color = Color(0.909804, 0.317647, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouvmi"]
 bg_color = Color(0.909804, 0.317647, 0, 0)
@@ -31,6 +38,13 @@ bg_color = Color(0.909804, 0.317647, 0, 0)
 bg_color = Color(0.909804, 0.317647, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cgsnq"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_j7gih"]
+device = -1
+keycode = 4194343
+
+[sub_resource type="Shortcut" id="Shortcut_dqgks"]
+events = [SubResource("InputEventKey_j7gih")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2c2qe"]
 bg_color = Color(0.231373, 0.231373, 0.231373, 0)
@@ -116,6 +130,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_pyukf")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_t310m")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_iqj7x")
 toggle_mode = true
+shortcut = SubResource("Shortcut_hyc61")
 text = ""
 
 [node name="PinButton" type="Button" parent="TitleButtons"]
@@ -131,6 +146,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_ejv6b")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cgsnq")
 toggle_mode = true
 button_pressed = true
+shortcut = SubResource("Shortcut_dqgks")
 text = ""
 
 [node name="MinimizeButton" type="Button" parent="TitleButtons"]
