@@ -111,14 +111,6 @@ text = "Corner"
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
-[node name="Control3" type="Control" parent="."]
-layout_mode = 2
-theme = ExtResource("2_h8a4h")
-
-[node name="Control4" type="Control" parent="."]
-layout_mode = 2
-theme = ExtResource("2_h8a4h")
-
 [node name="AutohideTitleBarLabel" type="Label" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
