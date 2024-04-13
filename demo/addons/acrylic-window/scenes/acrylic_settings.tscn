@@ -102,6 +102,15 @@ text = "Backdrop"
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
 
+[node name="CornerLabel" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("2_h8a4h")
+text = "Corner"
+
+[node name="CornerButton" type="ScrollableOptionButton" parent="."]
+layout_mode = 2
+theme = ExtResource("2_h8a4h")
+
 [node name="Control3" type="Control" parent="."]
 layout_mode = 2
 theme = ExtResource("2_h8a4h")
@@ -195,6 +204,7 @@ theme = ExtResource("2_h8a4h")
 [connection signal="value_changed" from="DimStrengthSlider" to="." method="_on_dim_strength_slider_value_changed"]
 [connection signal="item_selected" from="FrameButton" to="." method="_on_frame_button_item_selected"]
 [connection signal="item_selected" from="BackdropButton" to="." method="_on_backdrop_button_item_selected"]
+[connection signal="item_selected" from="CornerButton" to="." method="_on_corner_button_item_selected"]
 [connection signal="item_selected" from="AutohideTitleBarButton" to="." method="_on_autohide_title_bar_button_item_selected"]
 [connection signal="item_selected" from="AccentTitleBarButton" to="." method="_on_accent_title_bar_button_item_selected"]
 [connection signal="toggled" from="AutoColorsButton" to="." method="_on_auto_colors_button_toggled"]

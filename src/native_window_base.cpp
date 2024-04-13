@@ -96,6 +96,10 @@ bool NativeWindowBase::set_backdrop(const AcrylicWindow::Backdrop p_backdrop) {
 	return true;
 }
 
+bool NativeWindowBase::set_corner(const AcrylicWindow::Corner p_corner) {
+	return true;
+}
+
 bool NativeWindowBase::set_autohide_title_bar(const AcrylicWindow::Autohide p_autohide_title_bar) {
 	return true;
 }

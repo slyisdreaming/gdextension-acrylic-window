@@ -41,6 +41,7 @@ public:
 	bool set_drag_by_right_click(const bool p_drag_by_right_click);
 	bool set_frame(const AcrylicWindow::Frame p_frame);
 	bool set_backdrop(const AcrylicWindow::Backdrop p_backdrop);
+	bool set_corner(const AcrylicWindow::Corner p_corner);
 	bool set_autohide_title_bar(const AcrylicWindow::Autohide p_autohide_title_bar);
 	bool set_accent_title_bar(const AcrylicWindow::Accent p_accent_title_bar);
 	bool set_auto_colors(const bool p_auto_colors);

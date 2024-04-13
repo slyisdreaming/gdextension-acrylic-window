@@ -43,6 +43,13 @@ public:
 		BACKDROP_TABBED
 	};
 
+	enum Corner {
+		CORNER_DEFAULT,
+		CORNER_DONT_ROUND,
+		CORNER_ROUND,
+		CORNER_ROUND_SMALL
+	};
+
 	enum Autohide {
 		AUTOHIDE_NEVER,
 		AUTOHIDE_ALWAYS,
@@ -67,6 +74,7 @@ public:
 
 	DECLARE_PROPERTY(Frame, frame, FRAME_CUSTOM)
 	DECLARE_PROPERTY(Backdrop, backdrop, BACKDROP_ACRYLIC)
+	DECLARE_PROPERTY(Corner, corner, CORNER_DEFAULT)
 	DECLARE_PROPERTY(Autohide, autohide_title_bar, AUTOHIDE_MAXIMIZED)
 	DECLARE_PROPERTY(Accent, accent_title_bar, ACCENT_MOUSE_OVER)
 	
@@ -109,5 +117,6 @@ private:
 
 VARIANT_ENUM_CAST(::godot::AcrylicWindow::Frame)
 VARIANT_ENUM_CAST(::godot::AcrylicWindow::Backdrop)
+VARIANT_ENUM_CAST(::godot::AcrylicWindow::Corner)
 VARIANT_ENUM_CAST(::godot::AcrylicWindow::Autohide)
 VARIANT_ENUM_CAST(::godot::AcrylicWindow::Accent)

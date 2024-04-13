@@ -619,6 +619,29 @@ bool NativeWindow::set_backdrop(const AcrylicWindow::Backdrop p_backdrop) {
 	return Super::set_backdrop(p_backdrop);
 }
 
+bool NativeWindow::set_corner(const AcrylicWindow::Corner p_corner) {
+	UINT value = DWMWCP_DEFAULT;
+	switch (p_corner) {
+	case AcrylicWindow::CORNER_DONT_ROUND:
+		value = DWMWCP_DONOTROUND;
+		break;
+	case AcrylicWindow::CORNER_ROUND:
+		value = DWMWCP_ROUND;
+		break;
+	case AcrylicWindow::CORNER_ROUND_SMALL:
+		value = DWMWCP_ROUNDSMALL;
+		break;
+	}
+
+	HRESULT hresult = DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &value, sizeof(value));
+	if (FAILED(hresult)) {
+		print_error("Failed to set corner = %d. Error: %d.", value, hresult);
+		return false;
+	}
+
+	return true;
+}
+
 bool NativeWindow::set_autohide_title_bar(const AcrylicWindow::Autohide p_autohide_title_bar) {
 	return true;
 }

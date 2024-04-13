@@ -43,6 +43,7 @@ enum Preset {
 @onready var dim_strength_slider: HSlider = $DimStrengthSlider
 @onready var frame_button: OptionButton = $FrameButton
 @onready var backdrop_button: OptionButton = $BackdropButton
+@onready var corner_button: ScrollableOptionButton = $CornerButton
 @onready var autohide_title_bar_button: OptionButton = $AutohideTitleBarButton
 @onready var accent_title_bar_button: OptionButton = $AccentTitleBarButton
 @onready var auto_colors_button: CheckButton = $AutoColorsButton
@@ -70,6 +71,11 @@ func _ready() -> void:
 	backdrop_button.add_item("Acrylic")
 	backdrop_button.add_item("Mica")
 	backdrop_button.add_item("Tabbed")
+	
+	corner_button.add_item("Default")
+	corner_button.add_item("Don't Round")
+	corner_button.add_item("Round")
+	corner_button.add_item("Round Small")
 
 	autohide_title_bar_button.add_item("Never")
 	autohide_title_bar_button.add_item("Always")
@@ -104,6 +110,7 @@ func _ready() -> void:
 	drag_by_right_click_button.button_pressed = acrylic_window.drag_by_right_click
 	dim_strength_slider.value = acrylic_window.dim_strength
 	frame_button.select(acrylic_window.frame)
+	corner_button.select(acrylic_window.corner)
 	autohide_title_bar_button.select(acrylic_window.autohide_title_bar)
 	accent_title_bar_button.select(acrylic_window.accent_title_bar)
 
@@ -323,6 +330,10 @@ func _on_frame_button_item_selected(index: int) -> void:
 func _on_backdrop_button_item_selected(index: int) -> void:
 	acrylic_window.backdrop = index
 
+
+func _on_corner_button_item_selected(index: int) -> void:
+	acrylic_window.corner = index
+	
 
 func _on_autohide_title_bar_button_item_selected(index: int) -> void:
 	acrylic_window.autohide_title_bar = index

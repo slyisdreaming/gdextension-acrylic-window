@@ -127,6 +127,11 @@ void AcrylicWindow::_bind_methods() {
 	BIND_ENUM_CONSTANT(BACKDROP_MICA);
 	BIND_ENUM_CONSTANT(BACKDROP_TABBED);
 
+	BIND_ENUM_CONSTANT(CORNER_DEFAULT);
+	BIND_ENUM_CONSTANT(CORNER_DONT_ROUND);
+	BIND_ENUM_CONSTANT(CORNER_ROUND);
+	BIND_ENUM_CONSTANT(CORNER_ROUND_SMALL);	
+
 	BIND_ENUM_CONSTANT(ACCENT_NEVER);
 	BIND_ENUM_CONSTANT(ACCENT_ALWAYS);
 	BIND_ENUM_CONSTANT(ACCENT_MOUSE_OVER);
@@ -145,6 +150,7 @@ void AcrylicWindow::_bind_methods() {
 	
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, frame, "Default, Borderless, Custom");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, backdrop, "Solid, Transparent, Acrylic, Mica, Tabbed");
+	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, corner, "Default, Don't Round, Round, Round Small");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, autohide_title_bar, "Never, Always, Maximized");
 	BIND_PROPERTY_ENUM_AND_SIGNAL(AcrylicWindow, Variant::INT, accent_title_bar, "Never, Always, Mouse Over");
 
@@ -228,6 +234,7 @@ DEFINE_PROPERTY_GET(AcrylicWindow, float, dim_strength)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, modify_editor)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Frame, frame)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Backdrop, backdrop)
+DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Corner, corner)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Autohide, autohide_title_bar)
 DEFINE_PROPERTY_GET(AcrylicWindow, AcrylicWindow::Accent, accent_title_bar)
 DEFINE_PROPERTY_GET(AcrylicWindow, bool, auto_colors)
@@ -311,6 +318,19 @@ void AcrylicWindow::set_backdrop(const AcrylicWindow::Backdrop p_backdrop) {
 	backdrop = p_backdrop;
 
 	EMIT_SIGNAL_CHANGED(backdrop);
+}
+
+void AcrylicWindow::set_corner(const AcrylicWindow::Corner p_corner) {
+	PROPERTY_GUARD(corner);
+	EDITOR_GUARD(corner);
+
+	NATIVE_GUARD;
+	if (!native.set_corner(p_corner))
+		return;
+
+	corner = p_corner;
+
+	EMIT_SIGNAL_CHANGED(corner);
 }
 
 void AcrylicWindow::set_autohide_title_bar(const AcrylicWindow::Autohide p_autohide_title_bar) {
@@ -462,6 +482,7 @@ void AcrylicWindow::apply_style() {
 	native.set_text_size(text_size);
 	native.set_always_on_top(always_on_top);
 	native.set_backdrop(backdrop);
+	native.set_corner(corner);
 	native.set_border_color(border_color);
 	native.set_title_bar_color(title_bar_color);
 	native.set_text_color(text_color);
