@@ -1,7 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
 out/
-.vs/
+.vs/*
+!.vs/launch.vs.json
 enc_temp_folder/
 
 # Godot-specific ignores

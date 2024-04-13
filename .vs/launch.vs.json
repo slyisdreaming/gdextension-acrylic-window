@@ -1,0 +1,35 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "dll",
+      "exe": "C:\\Development\\Godot\\Godot_v4.2.1-stable_win64_console.exe",
+      "args": [
+        "--editor",
+        "--path",
+        "${workspaceRoot}\\demo"
+      ],
+      "project": "CMakeLists.txt",
+      "name": "1. AcrylicWindow (Godot 4.2)"
+    },
+    {
+      "type": "dll",
+      "exe": "${workspaceRoot}\\godot\\bin\\godot.windows.editor.x86_64.exe",
+      "args": [
+        "--editor",
+        "--path",
+        "${workspaceRoot}\\demo"
+      ],
+      "project": "CMakeLists.txt",
+      "name": "2. AcrylicWindow (Custom 4.2)"
+    },
+    {
+      "type": "dll",
+      "exe": "",
+      "project": "CMakeLists.txt",
+      "projectTarget": "acrylic-window.windows.release.x86_64.dll (E:\\Dreams\\sly\\gdextension-acrylic-window\\demo\\addons\\acrylic-window\\bin\\acrylic-window.windows.release.x86_64.dll)",
+      "name": "acrylic-window.windows.release.x86_64.dll (E:\\Dreams\\sly\\gdextension-acrylic-window\\demo\\addons\\acrylic-window\\bin\\acrylic-window.windows.release.x86_64.dll)"
+    }
+  ]
+}
