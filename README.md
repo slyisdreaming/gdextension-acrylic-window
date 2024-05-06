@@ -1,67 +1,43 @@
 # Acrylic Window
-This GDExtension brings Acrylic and Mica styles to apps made with Godot.
+Build modern applications with a custom frame and Acrylic & Mica styles in Godot.
 
-<img src="screenshots/custom_themes.jpeg" alt="Acrylic Blue" width="720"/>
+<img src="screenshots/light_themes.jpeg" alt="Acrylic Blue" width="720"/>
 
-<br/>
+## FEATURES
 
-> Thanks to [vorlac](https://github.com/vorlac) for the detailed guide how to build GDExtensions with CMake.  
-> Check his work here: https://github.com/vorlac/godot-gdextension-demo-cmake
+1. Fully customizable custom frame in GDScript.
+2. Easily customizable built-in dark & white themes.
+3. 5 backdrops: Solid, Transparent, Acrylic, Mica & Tabbed.
+4. Aero Snap support.
+5. Control roundness of window corners for Windows 11.
+6. Autohide & Accent title bar (useful for OLED screens to prevent burn-in of the static elements and to maximize the working space).
+7. Drag window by content & by right click (useful for apps like PureRef or video players).
+8. Always on Top pin button (useful for debugging and to keep important windows on top of other windows).
+9. Dim inactive window.
 
-You need Windows 11 22H2 or newer to enable Acrylic and Mica effects.
+Please note: Acrylic, Mica & Tabbed backdrops require Windows 11 22H2.
 
-**To build this extension:**
+## HOW TO USE
+
+The easiest way is to download the latest release.
+
+Just extract it and copy the `addons` folder to your project.  
+Extend or reuse the `acrylic_main` scene to apply custom frame.  
+
+Make sure to enable transparency: `Godot > Project > Project Settings > Display > Window > Transparent`
+
+## HOW TO BUILD
+
+If you want to build the extension by yourself then follow these steps:
 
 1. Open the project folder in Visual Studio.
 2. Select configuration `x64 Release`.
 3. Let Visual Studio configure the project.
 4. Select the Startup Item `AcrylicWindow.dll`.
 5. Build the project.
-6. Copy the contents of the `demo/bin` folder to your project.
+6. Copy the contents of the `demo/addons` folder to your project.
 7. Enable transparency: `Godot > Project > Project Settings > Display > Window > Transparent`
 
-The extension will be built against the Godot 4.2 release and it should work just fine with Godot 4.3 but not 4.1. Edit `CMakeLists.txt` if you need a different version.
+## HOW TO DEBUG
 
-You can debug the extension with the released version of Godot or with the custom build. The latter helps trace bugs directly into the engine.
-
-**To debug with the released version of Godot:**
-
-1. Edit `.vs/launch.vs.json` file to point to a release installation of Godot.
-2. Open the project folder in Visual Studio.
-3. Select configuration `x64 Debug`.
-4. Let Visual Studio configure the project.
-5. Select the Startup Item `AcrylicWindow (Godot 4.2)`.
-6. Build the project.
-
-If everything worked correctly, the editor should automatically open the demo project.
-
-To debug with the custom build of Godot, you need to build Godot first. Don't worry, that is easy and it takes just 5 minutes to build the entire engine.
-
-**To build Godot:**
-
-1. Install Python 3.
-2. Run `x86_x64 Cross Tools Command Prompt for VS 2022` as administrator.
-2. Install scons: `pip install scons`
-3. Edit `.gitmodules` if you want to use a different branch of the engine. The current one is 4.2.
-3. Initialize Godot submodule: `git submodule update --init`
-4. Build Godot: `scons --directory=godot platform=windows target=editor arch=x86_64 debug_symbols=yes optimize=debug`
-
-**To debug with the custom build:**
-
-1. Open the project folder in Visual Studio.
-2. Select configuration `x64 Debug`.
-3. Let Visual Studio configure the project.
-4. Select the Startup Item `AcrylicWindow (Custom 4.2)`.
-5. Build the project.
-
-Once again, if everything worked correctly then the editor should automatically open the demo project. And now you can debug not just the extension but the engine itself.
-
-**To create a repository for GDExtension from scratch:**
-
-1. mkdir myextension
-2. cd myextension
-3. git init
-4. git submodule add -b 4.2 https://github.com/godotengine/godot
-5. git config -f .gitmodules submodule.godot.shallow true
-6. git submodule update --init
-7. copy .vs, demo, src, .gitignore, CMakeLists.txt, CMakePresets.json, LICENSE, README.md
+Please check this project for the detailed guide how to debug GDExtension: https://github.com/slyisdreaming/gdextension-cmake-template
