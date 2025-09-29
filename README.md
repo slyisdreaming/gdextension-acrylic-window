@@ -24,7 +24,10 @@ The easiest way is to download the latest release.
 Just extract it and copy the `addons` folder to your project.  
 Extend or reuse the `acrylic_main` scene to apply custom frame.  
 
-Make sure to enable transparency: `Godot > Project > Project Settings > Display > Window > Transparent`
+Enable transparency:  
+`Godot > Project > Project Settings > Display > Window > Transparent: On`  
+`Godot > Project > Project Settings > Display > Window > Per Pixel Transparency - Allowed: On`  
+`Godot > Project > Project Settings > Rendering > Viewport > Transparent Background: On`  
 
 ## HOW TO BUILD
 
