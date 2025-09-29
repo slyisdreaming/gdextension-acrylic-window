@@ -1,6 +1,6 @@
 [configuration]
 entry_symbol = "acrylic_window_library_init"
-compatibility_minimum = "4.2"
+compatibility_minimum = "4.5"
 
 [libraries]
 macos.debug = "res://addons/acrylic-window/bin/acrylic-window.macos.debug.framework"

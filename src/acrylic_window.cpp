@@ -196,7 +196,7 @@ void AcrylicWindow::on_ready() {
 	NATIVE_GUARD;
 	native.on_ready();
 
-	dim_rect = new ColorRect();
+	dim_rect = memnew(ColorRect);
 	dim_rect->set_name("DimRect");
 	dim_rect->set_color(Color(0, 0, 0, 0));
 	dim_rect->set_mouse_filter(Control::MOUSE_FILTER_IGNORE);

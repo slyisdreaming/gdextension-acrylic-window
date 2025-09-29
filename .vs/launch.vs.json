@@ -4,14 +4,14 @@
   "configurations": [
     {
       "type": "dll",
-      "exe": "C:\\Development\\Godot\\Godot_v4.2.1-stable_win64_console.exe",
+      "exe": "C:\\Development\\Godot\\Godot_v4.5-stable_win64_console.exe",
       "args": [
         "--editor",
         "--path",
         "${workspaceRoot}\\demo"
       ],
       "project": "CMakeLists.txt",
-      "name": "1. AcrylicWindow (Godot 4.2)"
+      "name": "1. AcrylicWindow (Godot 4.5)"
     },
     {
       "type": "dll",
@@ -22,7 +22,7 @@
         "${workspaceRoot}\\demo"
       ],
       "project": "CMakeLists.txt",
-      "name": "2. AcrylicWindow (Custom 4.2)"
+      "name": "2. AcrylicWindow (Custom 4.5)"
     },
     {
       "type": "dll",
